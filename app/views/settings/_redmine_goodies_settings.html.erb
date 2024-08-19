@@ -1,0 +1,13 @@
+<p>
+    <label for="settings_controller_remove_lazy"><%= l(:settings_controller_remove_lazy) %></label>
+    <%= hidden_field_tag 'settings[remove_lazy_loading]', 0, :id => nil %>
+    <%= check_box_tag 'settings[remove_lazy_loading]', 1, Setting.plugin_redmine_goodies[:remove_lazy_loading] == '1' %>
+    <em class="info"><%= l(:settings_controller_remove_lazy_text) %></em>
+</p>
+
+<p>
+    <label for="settings_controller_collapsible_images"><%= l(:settings_controller_collapsible_images) %></label>
+    <%= hidden_field_tag 'settings[collapsible_images]', 0, :id => nil %>
+    <%= check_box_tag 'settings[collapsible_images]', 1, Setting.plugin_redmine_goodies[:collapsible_images] == '1' %>
+    <em class="info"><%= l(:settings_controller_collapsible_images_text) %></em>
+</p>
