@@ -19,9 +19,6 @@ module ApplicationControllerPatch
                 response.body = response.body.gsub(/<p><img\s+[^>]*src=["']?([^"'\s>]+)["']?[^>]*>/) do |img|
                     "<details open><summary>Click to expand image | <a href=\"#\" onclick=\"expandAll('#main'); return false;\">Expand all</a> | <a href=\"#\" onclick=\"collapseAll('#main'); return false;\">Collapse all</a></summary>#{img}</details>"
                 end
-                response.body = response.body.gsub(/<\/body>/) do |body_end|
-                    "<script>getIsCollapsedValueFromLocalStorage()</script>#{body_end}"
-                end
             end
         end
     end
