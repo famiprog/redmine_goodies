@@ -1,0 +1,6 @@
+en:
+    settings_controller_remove_lazy: Remove lazy loading
+    settings_controller_remove_lazy_text: The images in Redmine have loading="lazy". Because of this, the page is rendered before they are loaded. And then they are loaded, and they appear one by one (the scroll bar growing each time during this process). A consequence is that URLs w/ anchor don't work well any more. E.g. https://.../myPage#myAnchor. On click, the page scrolls correctly. But then the images load and "push" the scroll, ending most of the times w/ the desired anchored portion out of the screen.
+
+    settings_controller_collapsible_images: Collapsible images
+    settings_controller_collapsible_images_text: To avoid cluttering Redmine pages with too many images, this setting will allow you to collapse or expand each image individually or all at once.
