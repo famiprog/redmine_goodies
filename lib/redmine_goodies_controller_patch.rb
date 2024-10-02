@@ -1,12 +1,12 @@
-module ApplicationControllerPatch
+module RedmineGoodiesControllerPatch
     def self.included(base)
         base.send(:include, InstanceMethods)
-        base.send(:after_action, :remove_lazy_loading)
+        base.send(:after_action, :remove_lazy_loading_img)
         base.send(:after_action, :collapsible_images)
     end
      
     module InstanceMethods
-        def remove_lazy_loading
+        def remove_lazy_loading_img
             if RedmineGoodiesSettings.remove_lazy_loading?
                 response.body = response.body.gsub(/loading="lazy"/, "")
             end
