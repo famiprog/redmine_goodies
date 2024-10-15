@@ -1,3 +1,13 @@
 .collapsible-img {
     border: 1px dashed lightgrey
 }
+
+.icon-image-collapsible {
+    background-image: url('../images/image_collapsible.png');
+    display: inline-block;
+    width: 18px;
+    height: 20px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    vertical-align: middle;
+}

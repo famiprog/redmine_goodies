@@ -2,7 +2,6 @@ function expandAll(containerElement) {
     localStorage.setItem("isCollapsed", "false");
     const element = document.querySelector(containerElement);
     const detailsElements = element.querySelectorAll(".collapsible-img");
-    console.log(detailsElements)
     detailsElements.forEach(function(detailsElement) {
         if (!detailsElement.hasAttribute("open")) {
             detailsElement.setAttribute("open", true);
