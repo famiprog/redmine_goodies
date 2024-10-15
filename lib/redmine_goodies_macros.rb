@@ -1,4 +1,4 @@
-module RedmineGoodies
+module RedmineGoodiesMacros
     module Macros
         # Retrieves a mapping of note references (that contain questions using the question macro) to their corresponding answers.
         def self.get_all_answers(issue_id)
@@ -45,7 +45,7 @@ module RedmineGoodies
                     question = $2
                     
                     note_id = obj.respond_to?(:indice) && obj.indice ? "#note-#{obj.indice}" : "#note-unknown"
-                    answered_questions = obj.journalized && RedmineGoodies::Macros.get_all_answers(obj.journalized.id)
+                    answered_questions = obj.journalized && RedmineGoodiesMacros::Macros.get_all_answers(obj.journalized.id)
                     answered_note = answered_questions[note_id]
                     answered_text = ""
 
