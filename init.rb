@@ -2,7 +2,7 @@ Redmine::Plugin.register :redmine_goodies do
     name 'Redmine goodies'
     author 'famiprog'
     description 'For detailed documentation see the link below.'
-    version '1.0.0-SNAPSHOT-2'
+    version '1.0.0'
     url 'https://github.com/famiprog/redmine_goodies'
     author_url 'https://github.com/famiprog'
 
