@@ -1,14 +1,11 @@
-function addAnswerMacroToNotesEditor(note_id, question_number) {
+function addAnswerMacroToNotesEditor(noteId, questionNumber) {
     const notesEditor = document.getElementById('issue_notes');
-    const answerMacro = "{{answer(" + note_id + ", " + question_number + "/" + ")}}"
-    if (notesEditor) {
-        const start = notesEditor.selectionStart;
-        const end = notesEditor.selectionEnd;
-        const currentValue = notesEditor.value;
-        notesEditor.value = currentValue.substring(0, start) + answerMacro + currentValue.substring(end);
-        notesEditor.selectionStart = notesEditor.selectionEnd = start + answerMacro.length;
-        notesEditor.focus();
-    } 
+    if (!notesEditor) return;
+    const answerMacro = `{{answer(${noteId}, ${questionNumber}/)}}`;
+    notesEditor.value += notesEditor.value.length ? `\n${answerMacro}` : answerMacro;
+    const cursorPosition = notesEditor.value.length;
+    notesEditor.setSelectionRange(cursorPosition, cursorPosition);
+    notesEditor.focus();
 }
 
 function markAnsweredQuestions() {
@@ -30,3 +27,27 @@ function markAnsweredQuestions() {
         });
     });
 }
+
+jsToolBar.prototype.elements.space6 = {
+    type: 'space',
+};
+
+jsToolBar.prototype.elements.questions_macro = {
+    type: 'button',
+    title: 'Questions macro',
+    fn: {
+        wiki: function() {
+            this.encloseLineSelection('{{questions','}}');
+        }
+    }
+};
+
+jsToolBar.prototype.elements.questions_macro_arg = {
+    type: 'button',
+    title: 'Questions macro with arg',
+    fn: {
+        wiki: function() {
+            this.encloseLineSelection('{{questions(1', ')}}');
+        }
+    }
+};
