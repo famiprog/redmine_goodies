@@ -1,4 +1,5 @@
 .collapsible-img {
+    padding: 4px;
     border: 1px dashed lightgrey
 }
 
@@ -14,4 +15,9 @@
     background-size: contain;
     background-repeat: no-repeat;
     vertical-align: middle;
+}
+
+.collapsible-highlighted {
+    background-color :#ffff66;
+    transition: background-color 1s ease;
 }
