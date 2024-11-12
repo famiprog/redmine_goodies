@@ -11,13 +11,3 @@
     background-repeat: no-repeat;
     vertical-align: middle;
 }
-
-.jstb_questions_macro {
-    background-image: url('../images/questions_macro.png');
-    background-size: 18px;
-}
-
-.jstb_questions_macro_arg {
-    background-image: url('../images/questions_macro_arg.png');
-    background-size: 18px;
-}
