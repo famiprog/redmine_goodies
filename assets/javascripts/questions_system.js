@@ -17,15 +17,16 @@ function markAnsweredQuestions() {
          * and it will extract: "26" & "2"
          */
         const answers = noteContent.innerHTML.matchAll(/Answer for <a href="#note-\d+">#note-(\d+)<\/a>, (\d+)\//g);
-        const linkNotes = [];
         answers.forEach(answer => {
             const questionNoteId = answer[1];
             const questionNumber = answer[2];
             const answerNoteId = noteContent.parentElement.parentElement.id;
             const answeredTextId = `answered-text-${questionNoteId}-${questionNumber}`;
             const answeredTextElement = document.getElementById(answeredTextId);
-            linkNotes.push(`<a href=#${answerNoteId}>#${answerNoteId}</a>`);
-            answeredTextElement.innerHTML = `<i class="icon icon-checked" style="padding-left: 15px;"></i><span>Answered in [${linkNotes}]</span>,&nbsp;`;
+            const addedAnswers = answeredTextElement.querySelector(".answers");
+            addedAnswers === null ?
+                answeredTextElement.innerHTML = `<i class="icon icon-checked" style="padding-left: 15px;"></i><span class=\"answers\">Answered in <a href=#${answerNoteId}>#${answerNoteId}</a></span>,&nbsp;` :
+                addedAnswers.innerHTML += `, <a href=#${answerNoteId}>#${answerNoteId}</a>`;
         });
     });
 }
@@ -49,7 +50,7 @@ jsToolBar.prototype.elements.questions_macro_arg = {
     title: 'Questions macro with arg',
     fn: {
         wiki: function() {
-            this.encloseLineSelection('{{questions(1', ')}}');
+            this.encloseLineSelection('{{questions(1)\n\n1/ ','\n\n}}');
         }
     }
 };
