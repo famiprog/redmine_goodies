@@ -1,0 +1,25 @@
+.jstb_questions_macro {
+    background-image: url('../images/questions_macro.png');
+    background-size: 18px;
+}
+
+.jstb_questions_macro_arg {
+    background-image: url('../images/questions_macro_arg.png');
+    background-size: 18px;
+}
+
+.reply-btn {
+    cursor: pointer;
+}
+
+.answer-macro {
+    border: 1px solid lightgrey;
+    padding: 2px;
+    background-color: greenyellow;
+}
+
+.questions-macro {
+    border: 1px solid lightgrey;
+    padding: 2px;
+    background-color: yellow;
+}
