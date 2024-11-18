@@ -1,0 +1,9 @@
+.jstb_details_macro {
+    background-image: url('../images/details_macro.png');
+    background-size: 18px;
+}
+
+.jstb_details_with_summary_macro {
+    background-image: url('../images/details_with_summary_macro.png');
+    background-size: 18px;
+}
