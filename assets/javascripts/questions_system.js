@@ -24,6 +24,7 @@ function markAnsweredQuestions() {
             const answeredTextId = `answered-text-${questionNoteId}-${questionNumber}`;
             const answeredTextElement = document.getElementById(answeredTextId);
             const addedAnswers = answeredTextElement.querySelector(".answers");
+            answeredTextElement?.parentElement?.classList.add("questions-answered");
             addedAnswers === null ?
                 answeredTextElement.innerHTML = `<i class="icon icon-checked" style="padding-left: 15px;"></i><span class=\"answers\">Answered in <a href=#${answerNoteId}>#${answerNoteId}</a></span>,&nbsp;` :
                 addedAnswers.innerHTML += `, <a href=#${answerNoteId}>#${answerNoteId}</a>`;

@@ -4,8 +4,10 @@
 }
 
 .jstb_questions_macro_arg {
-    background-image: url('../images/questions_macro_arg.png');
-    background-size: 18px;
+    background-image: url('../images/questions_macro.png'), url('../images/questions_macro_timer.png');
+    background-size: 18px 18px, 18px 18px;
+    background-position: center left, center right !important;
+    width: 38px !important;
 }
 
 .reply-btn {
@@ -22,4 +24,8 @@
     border: 1px solid lightgrey;
     padding: 2px;
     background-color: yellow;
+}
+
+.questions-answered {
+    background-color: #85d1ff;
 }
