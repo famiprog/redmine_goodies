@@ -2,7 +2,33 @@
 
 # Features
 
-## The "questions" system
+## Button for `<details>` tag
+
+<details>
+
+Simple version:
+
+![](img-readme/details1.png)
+
+Version w/ custom text for expand/collapse:
+
+![](img-readme/details2.png)
+
+You can select an existing section, and it will be wrapped in `<details>`.
+
+![](img-readme/details3.png)
+
+![](img-readme/details4.png)
+
+And by the way, this is how it's rendered. `<details>` is a standard HTML tag; it's not our invention. You can use it anywhere in HTML and/or Markdown. In other programs as well, e.g. GitHub, etc. We use this tag even for this `README.md` that you are currently reading 🙂.
+
+![](img-readme/details5.png)
+
+</details>
+
+## Button and highlight for questions/answers
+
+<details>
 
 ### Add questions
 
@@ -94,6 +120,8 @@ A question can have multiple answers.
         </td>
     </tr>    
 </table>
+
+</details>
 
 # Licenses for third party components/assets
 
