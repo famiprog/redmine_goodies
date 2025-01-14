@@ -17,7 +17,7 @@ jsToolBar.prototype.elements.details_with_summary_macro = {
     title: 'Details with summary macro',
     fn: {
         wiki: function () {
-            this.encloseLineSelection('<details><summary>Click to expand</summary\n\n', '\n\n</details>');
+            this.encloseLineSelection('<details><summary>Click to expand</summary>\n\n', '\n\n</details>');
         }
     }
 };
