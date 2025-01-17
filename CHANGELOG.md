@@ -1,3 +1,6 @@
+## v1.1.1
+* [Collapsible section button available on every html editor](https://github.com/famiprog/redmine_goodies/pull/9)
+
 ## v1.1.0
 * [New button for Markdown editors: Add collapsible section](https://github.com/famiprog/redmine_goodies/pull/7)
 
