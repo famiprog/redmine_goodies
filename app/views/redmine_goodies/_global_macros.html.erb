@@ -1,0 +1,16 @@
+<% content_for :header_tags do %>
+    <%# ============= Register macros  ============= %>
+    <%= stylesheet_link_tag 'collapsible_images', :plugin => 'redmine_goodies' %>
+    <%= javascript_include_tag 'collapsible_images', :plugin => 'redmine_goodies' %>
+
+    <%= stylesheet_link_tag 'details_system', :plugin => 'redmine_goodies' %>
+    <%= javascript_include_tag 'details_system', :plugin => 'redmine_goodies' %>
+<% end %>
+
+<% if RedmineGoodiesSettings.get_setting(:collapsible_images) == '1' %>
+    <%= javascript_tag do %>
+        document.addEventListener("DOMContentLoaded", (event) => {
+            getIsCollapsedValueFromLocalStorage()
+        });
+    <% end %>
+<% end %>
