@@ -29,3 +29,15 @@
 .questions-answered {
     background-color: #85d1ff;
 }
+
+.question_system_info {
+    border-top: 1px lightgray solid;
+    color: darkgray;
+}
+
+span.jstb_questions_macro {
+    display: inline-block;
+    width: 17px;
+    height: 17px;
+    background-repeat: no-repeat;
+}

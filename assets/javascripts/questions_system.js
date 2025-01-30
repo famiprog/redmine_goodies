@@ -1,5 +1,6 @@
 function addAnswerMacroToNotesEditor(noteId, questionNumber) {
-    const notesEditor = document.getElementById('issue_notes');
+    const notesEditor = document.getElementById('issue_notes'); //issue
+    // const notesEditor = document.getElementById('message_content'); // forum
     if (!notesEditor) return;
     const answerMacro = `{{answer(${noteId}, ${questionNumber}/)}} `;
     notesEditor.value += notesEditor.value.length > 0 ? `\n\n${answerMacro}` : answerMacro;
@@ -9,7 +10,8 @@ function addAnswerMacroToNotesEditor(noteId, questionNumber) {
 }
 
 function markAnsweredQuestions() {
-    const notes = document.querySelectorAll(".message-content");
+    const notes = document.querySelectorAll(".message-content"); // issue
+    // const notes = document.querySelectorAll(".message"); //forum
     notes.forEach(noteContent => {
         /**
          * eg: "Answer for #note-26, 2/ In my opinion, this is the solution."
@@ -25,6 +27,7 @@ function markAnsweredQuestions() {
             const answeredTextElement = document.getElementById(answeredTextId);
             const addedAnswers = answeredTextElement.querySelector(".answers");
             answeredTextElement?.parentElement?.classList.add("questions-answered");
+            answeredTextElement.parentElement?.querySelector(".not-yet-answered")?.remove()
             addedAnswers === null ?
                 answeredTextElement.innerHTML = `<i class="icon icon-checked" style="padding-left: 15px;"></i><span class=\"answers\">Answered in <a href=#${answerNoteId}>#${answerNoteId}</a></span>,&nbsp;` :
                 addedAnswers.innerHTML += `, <a href=#${answerNoteId}>#${answerNoteId}</a>`;

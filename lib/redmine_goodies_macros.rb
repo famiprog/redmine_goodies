@@ -12,14 +12,14 @@ module RedmineGoodiesMacros
                     #     1/ A question?
                     # }}, the regex below will extract:
                     # '1/' and 'A question?'
-                    output = text.gsub(/^(\d+)\/ (.+)$/) do |match|
+                    output = text.gsub(/^\s*(\d+)\s*\/\s*(.+?)\s*$/) do |match|
                         number = $1
-                        # this is needed because when 'html_safe' is applied, markdown is no longer interpreted.
-                        question = Redmine::WikiFormatting.to_html("markdown", $2).gsub("<p>", "<span>").gsub("</p>", "</span>")
+                        question = formatting_question_content($2, obj)
                         note_link = obj.respond_to?(:indice) && obj.indice ? "#note-#{obj.indice}" : "note unknown/needs page refresh"
-                        reply_btn = "<i class=\"icon icon-comment\" style=\"vertical-align: middle;\"></i><a class=\"reply-btn\" onclick=\"showAndScrollTo(&quot;update&quot;, &quot;issue_notes&quot;); addAnswerMacroToNotesEditor(&quot;#{note_link}&quot;, &quot;#{number}&quot;); return false;\">Add answer</a>"
-                        "<p><span class=\"questions-macro\"><b>Question: <a href=\"#{note_link}\">#{note_link}</a>, #{number}/</b> (<span id=\"answered-text-#{obj.respond_to?(:indice) && obj.indice ? obj.indice : "x"}-#{number}\"></span>#{reply_btn})</span> #{question}</p>"
+                        render_question(number, question, note_link, obj)
                     end
+                    question_system_info = "<p class=\"question_system_info\"><i>NOTE: these questions were added using the <span class=\"jstb_questions_macro\"></span> button. For answering, please use the \"Add answer\" button. This way the questions/answers will be linked together.</i></p>"
+                    output += question_system_info
                     output.html_safe
                 end
             end
