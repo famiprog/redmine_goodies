@@ -121,6 +121,8 @@ A question can have multiple answers.
     </tr>    
 </table>
 
+**Hint:** the question system can also be used on forums.
+
 ## Limitation
 
 1/ WHEN a question is on page 1 of a **forum** AND the answer is on page 2, THEN the cross-linking between them will not work properly.
