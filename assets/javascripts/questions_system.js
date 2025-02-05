@@ -15,6 +15,15 @@ function markAnsweredQuestions() {
     }
     for (let i = 0; i < notes.length; i++) {
         const noteContent = notes[i];
+
+        /**
+         * eg. 1: "Answer for #note-26, 2/ In my opinion, this is the solution."
+         * the regex below will match: "Answer for #note-26, 2/"
+         * and it will extract: "26" & "2"
+         * 
+         * eg. 2: "Answer for #message-6, 1/ In my opinion, this is the solution."
+         * result: "6" & "1"
+         */
         const answers = noteContent.innerHTML.matchAll(/Answer for <a href="#(?:note|message)-\d+">#(?:note|message)-(\d+)<\/a>, (\d+)\//g);
         for (const answer of answers) {
             const questionNoteId = answer[1];
