@@ -1,10 +1,14 @@
-<% reply_btn = "<i class=\"icon icon-comment\" style=\"vertical-align: middle;\"></i><a class=\"reply-btn\" onclick=\"showAndScrollTo(&quot;update&quot;, &quot;issue_notes&quot;); addAnswerMacroToNotesEditor(&quot;#{note_link}&quot;, &quot;#{number}&quot;); return false;\">Add answer</a>)" %>
+<% if is_issue %>
+    <% reply_btn = "<i class=\"icon icon-comment\" style=\"vertical-align: middle;\"></i><a class=\"reply-btn\" onclick=\"showAndScrollTo(&quot;update&quot;, &quot;issue_notes&quot;); addAnswerMacroToNotesEditor(&quot;#{note_link}&quot;, &quot;#{number}&quot;, true); return false;\">Add answer</a>)" %>
+<% else %>
+    <% reply_btn = "<i class=\"icon icon-comment\" style=\"vertical-align: middle;\"></i><a class=\"reply-btn\" onclick=\"$('#reply').toggle(); $('#message_content:visible').focus(); addAnswerMacroToNotesEditor(&quot;#{note_link}&quot;, &quot;#{number}&quot;, false); return false;\">Add answer</a>)" %>
+<% end %>
 
 <p>
     <span class="questions-macro">
         <b>Question: <a href="<%= note_link %>"><%= note_link %></a>, <%= number %>/</b>
         (<i class="not-yet-answered">Not yet answered, </i>
-        <span id="answered-text-<%= obj.respond_to?(:indice) && obj.indice ? obj.indice : "x" %>-<%= number %>"></span>
+        <span id="answered-text-<%= id ? id : "x" %>-<%= number %>"></span>
         <%= raw reply_btn %>
     </span>
     &nbsp;<%= raw question_text %>

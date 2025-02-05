@@ -9,7 +9,17 @@ module QuestionsSystemHelper
             end
     end
 
-    def render_question(number, question_text, note_link, obj)
-        render partial: "redmine_goodies/questions_macro", locals: { number: number, question_text: question_text, note_link: note_link, obj: obj }
-     end
+    def render_questions(number, question_text, obj)
+        is_issue = false
+        if obj.is_a?(Journal)
+            is_issue = true
+            note_id = obj&.indice
+            note_link = note_id ? "#note-#{note_id}" : "note id unknown/needs page refresh"
+        elsif obj.is_a?(Message)
+            note_id = obj&.id
+            note_link = note_id ? "#message-#{note_id}" : "message id unknown/needs page refresh"
+        end          
+
+        render partial: "redmine_goodies/questions_macro", locals: { number: number, question_text: question_text, note_link: note_link, id: note_id, is_issue: is_issue }
+    end
 end

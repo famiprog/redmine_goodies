@@ -9,17 +9,17 @@ module RedmineGoodiesMacros
                     end
                     # eg: 
                     # {{questions
-                    #     1/ A question?
+                    #       1  /  A question?
+                    #     2/Another question?
                     # }}, the regex below will extract:
-                    # '1/' and 'A question?'
-                    output = text.gsub(/^\s*(\d+)\s*\/\s*(.+?)\s*$/) do |match|
+                    # ('1/' and 'A question?'); ('2/' and 'Another question?')
+                    output = text.gsub(/^\s*(\d+)\s*\/\s*(.*?)(?=\n\s*\d+\s*\/|\n\}\}|\z)/m) do |match|
                         number = $1
                         question = formatting_question_content($2, obj)
-                        note_link = obj.respond_to?(:indice) && obj.indice ? "#note-#{obj.indice}" : "note unknown/needs page refresh"
-                        render_question(number, question, note_link, obj)
+                        render_questions(number, question, obj)
                     end
-                    question_system_info = "<p class=\"question_system_info\"><i>NOTE: these questions were added using the <span class=\"jstb_questions_macro\"></span> button. For answering, please use the \"Add answer\" button. This way the questions/answers will be linked together.</i></p>"
-                    output += question_system_info
+                    questions_system_info = "<p class=\"questions_system_info\"><i>NOTE: these questions were added using the <span class=\"jstb_questions_macro\"></span> button. For answering, please use the \"Add answer\" button. This way the questions/answers will be linked together.</i></p>"
+                    output += questions_system_info
                     output.html_safe
                 end
             end
