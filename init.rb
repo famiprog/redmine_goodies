@@ -10,9 +10,10 @@ Redmine::Plugin.register :redmine_goodies do
                             :remove_lazy_loading => '1',
                             :collapsible_images => '0'}, 
              :partial => 'settings/redmine_goodies_settings'
-  
+
     require File.expand_path('lib/redmine_goodies_hook_listener', __dir__)
     require File.expand_path('lib/redmine_goodies_settings', __dir__)
     require File.expand_path('lib/redmine_goodies_macros', __dir__)
+    Redmine::Hook::Helper.include RedmineGoodiesHelper
     ApplicationController.send(:include, RedmineGoodiesControllerPatch)
 end

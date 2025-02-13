@@ -4,3 +4,20 @@ en:
 
     settings_controller_collapsible_images: Collapsible images
     settings_controller_collapsible_images_text: To avoid cluttering Redmine pages with too many images, this setting will allow you to collapse or expand each image individually or all at once.
+
+    actions_to_trigger_when_fields_are_changed_title: Actions to trigger when fields are changed
+    actions_to_trigger_when_fields_are_changed_explanation: |
+        A JSON, e.g.:
+
+        [
+            {
+                "field": "Status",
+                "trigger": "when-changed-from",
+                "actions": [
+                    {
+                        "action": "reset-field",
+                        "field": "My field 1"
+                    }
+                ]
+            }
+        ]

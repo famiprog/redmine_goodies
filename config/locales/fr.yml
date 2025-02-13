@@ -4,3 +4,20 @@ fr:
 
     settings_controller_collapsible_images: Images repliables
     settings_controller_collapsible_images_text: Pour éviter d'encombrer les pages Redmine avec trop d'images, ce paramètre vous permettra de réduire ou d'étendre chaque image individuellement ou toutes en même temps.
+
+    actions_to_trigger_when_fields_are_changed_title: Actions à déclencher lorsque les champs sont modifiés
+    actions_to_trigger_when_fields_are_changed_explanation: |
+        Un JSON, par exemple :
+
+        [
+            {
+                "field": "Statut",
+                "trigger": "when-changed-from",
+                "actions": [
+                    {
+                        "action": "reset-field",
+                        "field": "Mon champ 1"
+                    }
+                ]
+            }
+        ]
