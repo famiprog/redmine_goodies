@@ -18,8 +18,9 @@ module RedmineGoodiesHelper
 
         issue_field = get_issue_field(field, issue)
         issue_field_value = issue_field.respond_to?(:name) ? issue_field.name : issue_field
-    
-        if trigger == TRIGGERS[:WHEN_CHANGE_FROM] && issue_field_value != value
+        attribute_previous_value = get_attribute_previous_value(field, issue)
+
+        if trigger == TRIGGERS[:WHEN_CHANGE_FROM] && issue_field_value != value && !attribute_previous_value.nil? && attribute_previous_value == value
             perform_actions(actions, issue)
             return
         end
@@ -51,7 +52,7 @@ module RedmineGoodiesHelper
         cf_definition = CustomField.find_by(name: cf_name)
 
         if value.nil?
-            cf_issue.value = cf_definition.default_value.presence || nil # to check if it's working with all types of custom fields
+            cf_issue.value = cf_definition.default_value.presence || nil
         else
             cf_issue.value = value
         end
@@ -63,15 +64,33 @@ module RedmineGoodiesHelper
     end
 
     def get_issue_field(field, issue)
-        field_map = { I18n.t(:field_status) => "status", I18n.t(:field_assigned_to) => "assigned_to", I18n.t(:field_author) => "author", 
-            I18n.t(:field_priority) => "priority", I18n.t(:field_tracker) => "tracker", I18n.t(:field_category) => "category",
-            I18n.t(:field_subject) => "subject", I18n.t(:field_description) => "description", I18n.t(:field_start_date) => "start_date",
-            I18n.t(:field_due_date) => "due_date", I18n.t(:field_estimated_hours) => "estimated_hours", I18n.t(:field_done_ratio) => "done_ratio",
-            I18n.t(:field_created_on) => "created_on", I18n.t(:field_updated_on) => "updated_on"
-        }
+        field_map = { I18n.t(:field_status) => "status", I18n.t(:field_assigned_to) => "assigned_to", I18n.t(:field_priority) => "priority" }
+
         if field_map.key?(field)
             return issue.send(field_map[field])
         end
     end
 
+    def get_attribute_previous_value(attr_name, issue)
+        last_journal = issue.journals.order(created_on: :desc).first
+        if last_journal
+            last_journal.details.each do |detail|
+                if Issue.human_attribute_name(detail.prop_key) == attr_name
+                    return get_attribute_name_by_id(attr_name, detail.old_value)
+                end
+            end
+        end
+        return nil
+    end
+
+    def get_attribute_name_by_id(attribute_name, id)
+        search_methods = {
+            I18n.t(:field_status) => ->(id) { IssueStatus.find_by(id: id)&.name },
+            I18n.t(:field_assigned_to) => ->(id) { User.find_by(id: id)&.name },
+            I18n.t(:field_priority) => ->(id) { IssuePriority.find_by(id: id)&.name },
+        }
+      
+        search_method = search_methods[attribute_name]
+        return search_method ? search_method.call(id) : nil
+     end
 end

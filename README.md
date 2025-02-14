@@ -123,6 +123,28 @@ A question can have multiple answers.
 
 </details>
 
+## Actions to trigger when fields are changed
+
+<details>
+
+In the plugin's settings, you can set the **actions** using a JSON, such as:
+
+![](img-readme/actions_settings.png)
+
+Before status changes:
+
+![](img-readme/actions_issue_before_field_reset.png)
+
+WHEN field **Status** is changed from **To review** to another value, THEN the field **Security** will be reset to its default value:
+
+![](img-readme/actions_issue_after_field_reset.png)
+
+Available list of triggers: ["when-changed-from"] <br>
+Available list of actions: ["reset-field"]
+
+*NOTE:* More triggers and actions will be added in the future, so stay tuned.
+</details>
+
 # Licenses for third party components/assets
 
 We use some icons from [Google Fonts](https://fonts.google.com/icons), licensed under [Apache License v2](https://www.apache.org/licenses/LICENSE-2.0.html)
