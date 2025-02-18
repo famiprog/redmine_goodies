@@ -11,13 +11,26 @@ fr:
 
         [
             {
-                "field": "Statut",
-                "trigger": "when-changed-from",
+                "field": "Status",
+                "fromValue": "Assigned",
+                "toValue": "To review",
                 "actions": [
                     {
+                        "action": "set-value",
+                        "newValue": 1,
+                        "field": "Pr reviewer"
+                    },
+                    {
                         "action": "reset-field",
-                        "field": "Mon champ 1"
+                        "field": "Pr dev"
+                    },
+                    {
+                        "action": "copy-to-field",
+                        "field": "Dummy field"
                     }
                 ]
             }
         ]
+
+    actions_to_trigger_when_fields_are_changed_status: '<p>Après la modification du champ "%{field_name}", les actions suivantes ont été appliquées : </p>'
+    actions_to_trigger_when_fields_are_changed_status_success: 'L`action "%{action_performed}" a été appliquée sur le champ "%{field_name}"'

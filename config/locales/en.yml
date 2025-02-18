@@ -12,12 +12,25 @@ en:
         [
             {
                 "field": "Status",
-                "trigger": "when-changed-from",
+                "fromValue": "Assigned",
+                "toValue": "To review",
                 "actions": [
                     {
+                        "action": "set-value",
+                        "newValue": 1,
+                        "field": "Pr reviewer"
+                    },
+                    {
                         "action": "reset-field",
-                        "field": "My field 1"
+                        "field": "Pr dev"
+                    },
+                    {
+                        "action": "copy-to-field",
+                        "field": "Dummy field"
                     }
                 ]
             }
         ]
+
+    actions_to_trigger_when_fields_are_changed_status: '<p>After the modification of the "%{field_name}" field, the following actions were applied: </p>'
+    actions_to_trigger_when_fields_are_changed_status_success: '"%{action_performed}" action was applied on "%{field_name}" field'

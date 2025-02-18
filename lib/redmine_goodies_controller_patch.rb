@@ -36,7 +36,7 @@ module RedmineGoodiesControllerPatch
             begin
                 actions_to_trigger_when_fields_changed = JSON.parse(RedmineGoodiesSettings.get_setting(:actions_to_trigger_when_fields_changed))
                 actions_to_trigger_when_fields_changed.each do |field_actions|
-                    unless field_actions.is_a?(Hash) && field_actions.key?(RedmineGoodiesHelper::JSON_FIELDS[:FIELD]) && field_actions.key?(RedmineGoodiesHelper::JSON_FIELDS[:VALUE]) && field_actions.key?(RedmineGoodiesHelper::JSON_FIELDS[:TRIGGER]) && field_actions.key?(RedmineGoodiesHelper::JSON_FIELDS[:ACTIONS])
+                    unless field_actions.is_a?(Hash) && field_actions.key?(RedmineGoodiesHelper::JSON_FIELDS[:FIELD]) && (field_actions.key?(RedmineGoodiesHelper::JSON_FIELDS[:FROM_VALUE]) || field_actions.key?(RedmineGoodiesHelper::JSON_FIELDS[:TO_VALUE])) && field_actions.key?(RedmineGoodiesHelper::JSON_FIELDS[:ACTIONS])
                         raise StandardError, "Missing or wrong keys in json: #{field_actions.inspect}"
                     end
                 end

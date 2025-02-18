@@ -133,16 +133,14 @@ In the plugin's settings, you can set the **actions** using a JSON, such as:
 
 Before status changes:
 
-![](img-readme/actions_issue_before_field_reset.png)
+![](img-readme/actions_issue_before_field_changes.png)
 
-WHEN field **Status** is changed from **To review** to another value, THEN the field **Security** will be reset to its default value:
+WHEN field **Status** is changed to "To review", THEN the **Pr dev** field is reset to the default value; **Pr reviewer** is set to 1, AND in **Dummy field** is copied the value from **Status** field:
 
-![](img-readme/actions_issue_after_field_reset.png)
+![](img-readme/actions_issue_after_field_changed.png)
 
-Available list of triggers: ["when-changed-from"] <br>
-Available list of actions: ["reset-field"]
+Available list of actions: ["reset-field", "set-value", "copy-to-field"]
 
-*NOTE:* More triggers and actions will be added in the future, so stay tuned.
 </details>
 
 # Licenses for third party components/assets
