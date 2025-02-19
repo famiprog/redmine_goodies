@@ -33,4 +33,6 @@ fr:
         ]
 
     actions_to_trigger_when_fields_are_changed_status: '<p>Après la modification du champ "%{field_name}", les actions suivantes ont été appliquées : </p>'
-    actions_to_trigger_when_fields_are_changed_status_success: 'L`action "%{action_performed}" a été appliquée sur le champ "%{field_name}"'
+    actions_to_trigger_when_fields_are_changed_status_success: L`action "%{action_performed}" a été appliquée sur le champ "%{field_name}"
+    actions_to_trigger_when_fields_are_changed_status_error: Échec de l'enregistrement des modifications du problème "%{issue_id}"  
+    actions_to_trigger_when_fields_are_changed_status_warning: Champ personnalisé "%{cf_name}" introuvable pour le problème "%{issue_id}". Veuillez examiner le JSON.

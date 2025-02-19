@@ -16,8 +16,7 @@ module RedmineGoodiesHelper
             return
         end
 
-        issue_field = get_issue_field(field, issue)
-        issue_field_value = issue_field.respond_to?(:name) ? issue_field.name : issue_field
+        issue_field_value = get_field_value(field, issue)
         attribute_previous_value = get_attribute_previous_value(field, issue)  # if blank, the issue field didn't change
 
         # E.g: fromValue = new; toValue = ""
@@ -31,14 +30,14 @@ module RedmineGoodiesHelper
             return
         end
         # E.g: fromValue = "new"; toValue = "assigned"
-        if issue_field_value == to_value && attribute_previous_value == from_value
-            perform_actions(actions, issue, issue_field_value)
+        if issue_field_value == to_value && !attribute_previous_value.blank? && attribute_previous_value == from_value
+            perform_actions(actions, issue, field)
+            return
         end
     end
 
     def perform_actions(actions, issue, field)
-        issue_field = get_issue_field(field, issue)
-        issue_field_value = issue_field.respond_to?(:name) ? issue_field.name : issue_field
+        issue_field_value = get_field_value(field, issue)
         changes_logs = []
 
         actions.each do |action|
@@ -55,7 +54,7 @@ module RedmineGoodiesHelper
         end
 
         if !issue.save
-            flash[:error] = "Failed to save modifications to issue ##{issue.id}"
+            flash[:error] = l(:actions_to_trigger_when_fields_are_changed_status_error, issue_id: issue.id)
             return
         end
         display_fields_changes_status(field, changes_logs)
@@ -65,7 +64,7 @@ module RedmineGoodiesHelper
         cf_issue = issue.custom_field_values.find { |cfv| cfv.custom_field.name == cf_name }
         
         if cf_issue.nil?
-            flash[:warning] = "Custom field '#{cf_name}' not found for issue ##{issue.id}"
+            flash[:warning] = l(:actions_to_trigger_when_fields_are_changed_status_warning, cf_name: cf_name, issue_id: issue.id)
             return false
         end
 
@@ -84,6 +83,12 @@ module RedmineGoodiesHelper
         if field_map.key?(field)
             return issue.send(field_map[field])
         end
+    end
+
+    def get_field_value(field, issue)
+        issue_field = get_issue_field(field, issue)
+        issue_field_value = issue_field.respond_to?(:name) ? issue_field.name : issue_field
+        return issue_field_value
     end
 
     def get_attribute_previous_value(attr_name, issue)

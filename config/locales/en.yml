@@ -34,3 +34,5 @@ en:
 
     actions_to_trigger_when_fields_are_changed_status: '<p>After the modification of the "%{field_name}" field, the following actions were applied: </p>'
     actions_to_trigger_when_fields_are_changed_status_success: '"%{action_performed}" action was applied on "%{field_name}" field'
+    actions_to_trigger_when_fields_are_changed_status_error: Failed to save modifications to issue "%{issue_id}"
+    actions_to_trigger_when_fields_are_changed_status_warning: Custom field "%{cf_name}" not found for issue "%{issue_id}". Please review the JSON.
