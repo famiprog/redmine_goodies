@@ -17,7 +17,7 @@ module RedmineGoodiesHelper
         end
 
         issue_field_value = get_field_value(field, issue)
-        attribute_previous_value = get_attribute_previous_value(field, issue)  # if blank, the issue field didn't change
+        attribute_previous_value = get_field_previous_value(field, issue)  # if blank, the issue field didn't change
 
         # E.g: fromValue = new; toValue = ""
         if to_value.blank? && issue_field_value != from_value && !attribute_previous_value.blank? && attribute_previous_value == from_value
@@ -77,12 +77,21 @@ module RedmineGoodiesHelper
         return true
     end
 
-    def get_issue_field(field, issue)
-        field_map = { I18n.t(:field_status) => "status", I18n.t(:field_assigned_to) => "assigned_to", I18n.t(:field_priority) => "priority", I18n.t(:field_category) => "category", I18n.t(:field_project) => "project", I18n.t(:field_tracker) => "tracker" }
-
-        if field_map.key?(field)
-            return issue.send(field_map[field])
+    def get_issue_field(label, issue)
+        # issue attributes, such as: Status, Assignee, Subject etc
+        issue_attributes = Issue.new.attributes.keys
+        issue_attributes.each do |attribute|
+          attribute = attribute.sub(/_id$/, '')  # eg: status_id -> status
+          field_label = I18n.t("field_#{attribute}")
+          return issue.send(attribute) if field_label == label
         end
+        
+        custom_field = IssueCustomField.find_by(name: label)
+        if custom_field
+          custom_value = CustomValue.find_by(custom_field_id: custom_field.id, customized_id: issue.id)
+          return custom_value&.value
+        end
+        return nil
     end
 
     def get_field_value(field, issue)
@@ -91,20 +100,25 @@ module RedmineGoodiesHelper
         return issue_field_value
     end
 
-    def get_attribute_previous_value(attr_name, issue)
+    def get_field_previous_value(attr_name, issue)
         last_journal = issue.journals.order(created_on: :desc).first
-        if last_journal
-            last_journal.details.each do |detail|
-                if Issue.human_attribute_name(detail.prop_key) == attr_name
-                    return get_attribute_name_by_id(attr_name, detail.old_value)
-                end
+        return nil unless last_journal
+     
+        last_journal.details.each do |detail|
+            # issue attributes, such as: Status, Assignee, Subject etc
+            if Issue.human_attribute_name(detail.prop_key) == attr_name
+                # checking if the `old_value` is an `id`(eg: 2) or directly the value (Redmine goodies new features)
+                return detail.old_value.match?(/\A\d+\z/) ? get_field_value_by_id(attr_name, detail.old_value, issue.id) : detail.old_value
             end
+            
+            custom_field = CustomField.find_by(id: detail.prop_key.to_i)
+            return detail.old_value if custom_field&.name == attr_name
         end
         return nil
     end
 
-    def get_attribute_name_by_id(attribute_name, id)
-        search_methods = {
+    def get_field_value_by_id(attribute_name, id, issue_id)
+        fields_values_by_id = {
             I18n.t(:field_status) => ->(id) { IssueStatus.find_by(id: id)&.name },
             I18n.t(:field_assigned_to) => ->(id) { User.find_by(id: id)&.name },
             I18n.t(:field_priority) => ->(id) { IssuePriority.find_by(id: id)&.name },
@@ -112,9 +126,15 @@ module RedmineGoodiesHelper
             I18n.t(:field_project) => ->(id) { Project.find_by(id: id)&.name },
             I18n.t(:field_tracker) => ->(id) { Tracker.find_by(id: id)&.name }
         }
-      
-        search_method = search_methods[attribute_name]
-        return search_method ? search_method.call(id) : nil
+        get_field_value = fields_values_by_id[attribute_name]
+        value = get_field_value ? get_field_value.call(id) : nil
+        return value if !value.nil?
+
+        custom_field = IssueCustomField.find_by(name: attribute_name)
+        if custom_field
+            custom_value = CustomValue.find_by(custom_field_id: custom_field.id, customized_id: issue_id)
+            return custom_value&.value
+        end
     end
 
     def display_fields_changes_status(field, list)
