@@ -11,3 +11,9 @@
     <%= check_box_tag 'settings[collapsible_images]', 1, Setting.plugin_redmine_goodies[:collapsible_images] == '1' %>
     <em class="info"><%= l(:settings_controller_collapsible_images_text) %></em>
 </p>
+
+<p>
+    <label for="actions_to_trigger_when_fields_changed"><%= l(:actions_to_trigger_when_fields_are_changed_title) %> </label>
+    <%= text_area_tag "settings[actions_to_trigger_when_fields_changed]", @settings['actions_to_trigger_when_fields_changed'], :rows=> 12 %>
+    <em class="info"><%= t(:actions_to_trigger_when_fields_are_changed_explanation) %></em>
+</p>
