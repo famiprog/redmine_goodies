@@ -78,7 +78,7 @@ module RedmineGoodiesHelper
     end
 
     def get_issue_field(field, issue)
-        field_map = { I18n.t(:field_status) => "status", I18n.t(:field_assigned_to) => "assigned_to", I18n.t(:field_priority) => "priority" }
+        field_map = { I18n.t(:field_status) => "status", I18n.t(:field_assigned_to) => "assigned_to", I18n.t(:field_priority) => "priority", I18n.t(:field_category) => "category", I18n.t(:field_project) => "project", I18n.t(:field_tracker) => "tracker" }
 
         if field_map.key?(field)
             return issue.send(field_map[field])
@@ -108,6 +108,9 @@ module RedmineGoodiesHelper
             I18n.t(:field_status) => ->(id) { IssueStatus.find_by(id: id)&.name },
             I18n.t(:field_assigned_to) => ->(id) { User.find_by(id: id)&.name },
             I18n.t(:field_priority) => ->(id) { IssuePriority.find_by(id: id)&.name },
+            I18n.t(:field_category) => ->(id) { IssueCategory.find_by(id: id)&.name },
+            I18n.t(:field_project) => ->(id) { Project.find_by(id: id)&.name },
+            I18n.t(:field_tracker) => ->(id) { Tracker.find_by(id: id)&.name }
         }
       
         search_method = search_methods[attribute_name]
