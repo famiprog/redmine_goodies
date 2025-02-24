@@ -5,7 +5,7 @@ module RedmineGoodiesMacros
                 desc "Custom macro for rendering questions"
                 macro :questions do |obj, args, text|
                     if args.length == 1 && !args[0].match?(/\A\d+\z/)
-                        return "<p style=\"color: red\"><b>Error:</b> Invalid argument for the questions macro. It must be a number.<p>".html_safe
+                        return l(:questions_system_invalid_question_macro).html_safe
                     end
                     # eg: 
                     # {{questions
@@ -18,8 +18,7 @@ module RedmineGoodiesMacros
                         question = formatting_question_content($2, obj)
                         render_questions(number, question, obj)
                     end
-                    questions_system_info = "<p class=\"questions_system_info\"><i>NOTE: these questions were added using the <span class=\"jstb_questions_macro\"></span> button. For answering, please use the \"Add answer\" button. This way the questions/answers will be linked together.</i></p>"
-                    output += questions_system_info
+                    output += l(:questions_system_note_info)
                     output.html_safe
                 end
             end
@@ -31,9 +30,9 @@ module RedmineGoodiesMacros
                     if args.length == 2
                         note_ref = args[0]
                         number = args[1]
-                        return "<span class=\"answer-macro\">Answer for <a href=\"#{note_ref}\">#{note_ref}</a>, #{number}</span>".html_safe
+                        return l(:questions_system_answer_macro_text, note_ref: note_ref, number: number).html_safe
                     end
-                    return "<p style=\"color: red\"><b>Error:</b> Invalid arguments for answer macro.<p>".html_safe
+                    return l(:questions_system_invalid_answer_macro).html_safe
                 end
             end
         end

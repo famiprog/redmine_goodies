@@ -14,10 +14,10 @@ module QuestionsSystemHelper
         if obj.is_a?(Journal)
             is_issue = true
             note_id = obj&.indice
-            note_link = note_id ? "#note-#{note_id}" : "note id unknown/needs page refresh"
+            note_link = note_id ? "#note-#{note_id}" : l(:questions_system_note_id_unknown)
         elsif obj.is_a?(Message)
             note_id = obj&.id
-            note_link = note_id ? "#message-#{note_id}" : "message id unknown/needs page refresh"
+            note_link = note_id ? "#message-#{note_id}" : l(:questions_system_message_id_unknown)
         end          
 
         render partial: "redmine_goodies/questions_macro", locals: { number: number, question_text: question_text, note_link: note_link, id: note_id, is_issue: is_issue }
