@@ -5,6 +5,9 @@
 
     <%= stylesheet_link_tag 'details_system', :plugin => 'redmine_goodies' %>
     <%= javascript_include_tag 'details_system', :plugin => 'redmine_goodies' %>
+
+    <%= stylesheet_link_tag 'questions_system', :plugin => 'redmine_goodies' %>
+    <%= javascript_include_tag 'questions_system', :plugin => 'redmine_goodies' %>
 <% end %>
 
 <% if RedmineGoodiesSettings.get_setting(:collapsible_images) == '1' %>
@@ -13,4 +16,10 @@
             getIsCollapsedValueFromLocalStorage()
         });
     <% end %>
+<% end %>
+
+<%= javascript_tag do %>
+    document.addEventListener("DOMContentLoaded", (event) => {
+        markAnsweredQuestions();
+    });
 <% end %>

@@ -14,5 +14,6 @@ Redmine::Plugin.register :redmine_goodies do
     require File.expand_path('lib/redmine_goodies_hook_listener', __dir__)
     require File.expand_path('lib/redmine_goodies_settings', __dir__)
     require File.expand_path('lib/redmine_goodies_macros', __dir__)
+    Redmine::Hook::Helper.include QuestionsSystemHelper
     ApplicationController.send(:include, RedmineGoodiesControllerPatch)
 end

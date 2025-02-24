@@ -29,3 +29,24 @@
 .questions-answered {
     background-color: #85d1ff;
 }
+
+.questions_system_info {
+    border-top: 1px lightgray solid;
+    color: darkgray;
+}
+
+span.jstb_questions_macro {
+    display: inline-block;
+    width: 17px;
+    height: 17px;
+    background-repeat: no-repeat;
+}
+
+/* On tablets or phones, not all the tabs from the editor are displayed: "overflow: hidden" is the cause */
+@media only screen and (max-width: 1000px) {
+    #content .jstTabs.tabs {
+        height: 45px;
+        overflow-y: hidden;
+        overflow-x: auto;
+    }
+}

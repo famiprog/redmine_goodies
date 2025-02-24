@@ -121,6 +121,18 @@ A question can have multiple answers.
     </tr>    
 </table>
 
+**Hint:** the question system can also be used on forums.
+
+## Limitation
+
+1/ WHEN a question is on page 1 of a **forum** AND the answer is on page 2, THEN the cross-linking between them will not work properly.
+
+![](img-readme/question_forum.png)
+
+![](img-readme/answer_forum.png)
+
+Even if the question has an answer, it is not marked as answered. Also, when you click on the link to the question from the answer, nothing happens.
+
 </details>
 
 # Licenses for third party components/assets
