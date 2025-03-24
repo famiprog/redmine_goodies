@@ -14,3 +14,4 @@ en:
     questions_system_invalid_answer_macro: "<p style=\"color: red\"><b>Error:</b> Invalid arguments for answer macro.<p>"
     questions_system_question_macro_text: "<b>Question: <a href=\"%{note_link}\">%{note_link}</a>, %{number}/</b>"
     questions_system_answer_macro_text: "<span class=\"answer-macro\">Answer for <a href=\"%{note_ref}\">%{note_ref}</a>, %{number}</span>"
+    questions_system_answered_in: '<i class=\"icon icon-checked\" style=\"padding-left: 15px;\"></i><span class=\"answers\">Answered in <a href=#undefined>#undefined</a></span>,&nbsp;'

@@ -32,10 +32,11 @@ function markAnsweredQuestions() {
             const answeredTextId = `answered-text-${questionNoteId}-${questionNumber}`;
             const answeredTextElement = document.getElementById(answeredTextId);
             const addedAnswers = answeredTextElement.querySelector(".answers");
+            const answeredInText = getTranslationForAnsweredIn(answerNoteId);
             answeredTextElement?.parentElement?.classList.add("questions-answered");
             answeredTextElement?.parentElement?.querySelector(".not-yet-answered")?.remove();
             if (addedAnswers === null) {
-                answeredTextElement.innerHTML = `<i class="icon icon-checked" style="padding-left: 15px;"></i><span class=\"answers\">Answered in <a href=#${answerNoteId}>#${answerNoteId}</a></span>,&nbsp;`;
+                answeredTextElement.innerHTML = answeredInText;
             } else {
                 addedAnswers.innerHTML += `, <a href=#${answerNoteId}>#${answerNoteId}</a>`;
             }

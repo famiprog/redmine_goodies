@@ -22,4 +22,9 @@
     document.addEventListener("DOMContentLoaded", (event) => {
         markAnsweredQuestions();
     });
+    
+    function getTranslationForAnsweredIn(answerNoteId) {
+        const translation = "<%= l(:questions_system_answered_in).html_safe %>"
+        return translation.replaceAll("undefined", answerNoteId);
+    }
 <% end %>

@@ -1,3 +1,6 @@
+## Not yet released:
+* [Add improvements and correct some bugs](https://github.com/famiprog/redmine_goodies/pull/10)
+
 ## v1.1.1
 * [Collapsible section button available on every html editor](https://github.com/famiprog/redmine_goodies/pull/9)
 
