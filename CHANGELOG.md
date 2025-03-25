@@ -1,4 +1,4 @@
-## Not yet released:
+## 1.1.2:
 * [Add improvements and correct some bugs](https://github.com/famiprog/redmine_goodies/pull/10)
 
 ## v1.1.1
