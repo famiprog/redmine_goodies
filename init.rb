@@ -2,7 +2,7 @@ Redmine::Plugin.register :redmine_goodies do
     name 'Redmine goodies'
     author 'famiprog'
     description 'For detailed documentation see the link below.'
-    version '1.1.1'
+    version '1.1.2'
     url 'https://github.com/famiprog/redmine_goodies'
     author_url 'https://github.com/famiprog'
 
@@ -15,5 +15,6 @@ Redmine::Plugin.register :redmine_goodies do
     require File.expand_path('lib/redmine_goodies_settings', __dir__)
     require File.expand_path('lib/redmine_goodies_macros', __dir__)
     Redmine::Hook::Helper.include RedmineGoodiesHelper
+    Redmine::Hook::Helper.include QuestionsSystemHelper
     ApplicationController.send(:include, RedmineGoodiesControllerPatch)
 end

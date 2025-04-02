@@ -1,0 +1,15 @@
+<% if is_issue %>
+    <% reply_btn = "<i class=\"icon icon-comment\" style=\"vertical-align: middle;\"></i><a class=\"reply-btn\" onclick=\"showAndScrollTo(&quot;update&quot;, &quot;issue_notes&quot;); addAnswerMacroToNotesEditor(&quot;#{note_link}&quot;, &quot;#{number}&quot;, true); return false;\">#{l(:questions_system_add_answer)}</a>)" %>
+<% else %>
+    <% reply_btn = "<i class=\"icon icon-comment\" style=\"vertical-align: middle;\"></i><a class=\"reply-btn\" onclick=\"$('#reply').toggle(); $('#message_content:visible').focus(); addAnswerMacroToNotesEditor(&quot;#{note_link}&quot;, &quot;#{number}&quot;, false); return false;\">#{l(:questions_system_add_answer)}</a>)" %>
+<% end %>
+
+<p>
+    <span class="questions-macro">
+        <%= l(:questions_system_question_macro_text, note_link: note_link, number: number).html_safe %>
+        (<i class="not-yet-answered"><%= l(:questions_system_no_answer) %></i>
+        <span id="answered-text-<%= id ? id : "x" %>-<%= number %>"></span>
+        <%= raw reply_btn %>
+    </span>
+    &nbsp;<%= raw question_text %>
+</p>
