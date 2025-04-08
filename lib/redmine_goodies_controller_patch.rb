@@ -5,7 +5,7 @@ module RedmineGoodiesControllerPatch
         base.send(:include, InstanceMethods)
         base.send(:after_action, :remove_lazy_loading_img)
         base.send(:after_action, :collapsible_images)
-        base.send(:after_action, :actions_to_trigger_when_fields_changed, if: -> { request.path.include?("/issues/") })
+        base.send(:before_action, :actions_to_trigger_when_fields_changed, if: -> { request.path.include?("/issues/") })
         base.send(:after_action, :check_actions_to_trigger_when_fields_changed_json, if: -> { request.path.include?("/settings/plugin") })
     end
 
@@ -50,9 +50,18 @@ module RedmineGoodiesControllerPatch
         end
 
         def actions_to_trigger_when_fields_changed
-            actions_to_trigger_when_fields_changed = JSON.parse(RedmineGoodiesSettings.get_setting(:actions_to_trigger_when_fields_changed))
-            actions_to_trigger_when_fields_changed.each do |field_actions|
-                apply_actions(field_actions)
+            issue = Issue.find_by(id: params[:id])
+            if issue.nil?
+                Rails.logger.error("Issue with ID #{params[:id]} not found.")
+                return
+            end
+            trigger_actions = JSON.parse(RedmineGoodiesSettings.get_setting(:actions_to_trigger_when_fields_changed))
+            trigger_actions.each do |field_actions|
+                apply_actions(issue, field_actions)
+            end
+            if !issue.save
+                flash[:error] = l(:actions_to_trigger_when_fields_are_changed_status_error, issue_id: issue.id)
+                return
             end
         end
     end

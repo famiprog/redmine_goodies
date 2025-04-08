@@ -1,4 +1,4 @@
-## Not release yet:
+## Not released yet:
 * [Actions triggered when fields are changed](https://github.com/famiprog/redmine_goodies/pull/11)
 
 ## 1.1.2:
