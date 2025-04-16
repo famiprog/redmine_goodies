@@ -11,9 +11,11 @@ module RedmineGoodiesHelper
         actions = field_actions[JSON_FIELDS[:ACTIONS]]
         issue_field_value = get_field_value(field, issue)
         attribute_previous_value = get_field_previous_value(field, issue)  # if blank, the issue field didn't change
+        from_value = nil if from_value == "nil"
+        to_value = nil if to_value == "nil"
 
         # E.g: fromValue = new; toValue = ""
-        if to_value.blank? && issue_field_value != from_value && !attribute_previous_value.blank? && attribute_previous_value == from_value
+        if to_value.blank? && issue_field_value != from_value && (!attribute_previous_value.blank? && attribute_previous_value == from_value || field == "Closed")
             perform_actions(actions, issue, field, issue_field_value)
             return
         end
@@ -58,7 +60,7 @@ module RedmineGoodiesHelper
             cf_definition = CustomField.find_by(name: cf_name)
             cf_issue.value = cf_definition.default_value.presence || nil
         else
-            cf_issue.value = value
+            cf_issue.value = !value.is_a?(ActiveSupport::TimeWithZone) ? value : value.strftime("%m/%d/%Y")
         end
         return true
     end
@@ -89,7 +91,7 @@ module RedmineGoodiesHelper
     def get_field_previous_value(attr_name, issue)
         last_journal = issue.journals.order(created_on: :desc).first
         return nil unless last_journal
-     
+
         last_journal.details.each do |detail|
             # issue attributes, such as: Status, Assignee, Subject etc
             if Issue.human_attribute_name(detail.prop_key) == attr_name
