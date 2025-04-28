@@ -44,26 +44,28 @@ function markAnsweredQuestions() {
     }
 }
 
-jsToolBar.prototype.elements.space6 = {
-    type: 'space',
-};
+if (typeof jsToolBar !== 'undefined') {
+    jsToolBar.prototype.elements.space6 = {
+        type: 'space',
+    };
 
-jsToolBar.prototype.elements.questions_macro = {
-    type: 'button',
-    title: 'Questions macro',
-    fn: {
-        wiki: function() {
-            this.encloseLineSelection('{{questions\n\n1/ ','\n\n}}');
+    jsToolBar.prototype.elements.questions_macro = {
+        type: 'button',
+        title: 'Questions macro',
+        fn: {
+            wiki: function() {
+                this.encloseLineSelection('{{questions\n\n1/ ','\n\n}}');
+            }
         }
-    }
-};
+    };
 
-jsToolBar.prototype.elements.questions_macro_arg = {
-    type: 'button',
-    title: 'Questions macro with arg',
-    fn: {
-        wiki: function() {
-            this.encloseLineSelection('{{questions(1)\n\n1/ ','\n\n}}');
+    jsToolBar.prototype.elements.questions_macro_arg = {
+        type: 'button',
+        title: 'Questions macro with arg',
+        fn: {
+            wiki: function() {
+                this.encloseLineSelection('{{questions(1)\n\n1/ ','\n\n}}');
+            }
         }
-    }
-};
+    };
+}
