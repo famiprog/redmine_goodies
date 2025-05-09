@@ -14,18 +14,10 @@ module RedmineGoodiesHelper
         from_value = nil if from_value == "nil"
         to_value = nil if to_value == "nil"
 
-        # E.g: fromValue = new; toValue = ""
-        if to_value.blank? && issue_field_value != from_value && (!attribute_previous_value.blank? && attribute_previous_value == from_value || field == "Closed")
-            perform_actions(actions, issue, field, issue_field_value)
-            return
-        end
-        # E.g: fromValue = ""; toValue = "assigned"
-        if from_value.blank? && issue_field_value == to_value && !attribute_previous_value.blank? && attribute_previous_value != to_value
-            perform_actions(actions, issue, field, issue_field_value)
-            return
-        end
-        # E.g: fromValue = "new"; toValue = "assigned"
-        if issue_field_value == to_value && !attribute_previous_value.blank? && attribute_previous_value == from_value
+        # E.g. fromValue = new; toValue = "" ||  fromValue = ""; toValue = "assigned" || fromValue = "new"; toValue = "assigned"
+        if (to_value.blank? && issue_field_value != from_value && (!attribute_previous_value.blank? && attribute_previous_value == from_value || field == "Closed")) ||
+                (from_value.blank? && issue_field_value == to_value && !attribute_previous_value.blank? && attribute_previous_value != to_value) ||
+                (issue_field_value == to_value && !attribute_previous_value.blank? && attribute_previous_value == from_value)
             perform_actions(actions, issue, field, issue_field_value)
             return
         end

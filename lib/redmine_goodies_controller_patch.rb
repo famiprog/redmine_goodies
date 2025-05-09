@@ -51,8 +51,7 @@ module RedmineGoodiesControllerPatch
 
         def actions_to_trigger_when_fields_changed
             issue = Issue.find_by(id: params[:id])
-            if issue.nil?
-                Rails.logger.error("Issue with ID #{params[:id]} not found.")
+            if issue.nil? || RedmineGoodiesSettings.get_setting(:actions_to_trigger_when_fields_changed).blank?
                 return
             end
             trigger_actions = JSON.parse(RedmineGoodiesSettings.get_setting(:actions_to_trigger_when_fields_changed))
