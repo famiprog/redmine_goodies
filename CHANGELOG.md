@@ -1,6 +1,9 @@
 ## Not released yet:
 * [Actions triggered when fields are changed](https://github.com/famiprog/redmine_goodies/pull/11)
 
+## 1.1.3:
+* [Fixing uncaught ReferenceError: jsToolBar is not defined](https://github.com/famiprog/redmine_goodies/pull/12)
+
 ## 1.1.2:
 * [Add improvements and correct some bugs](https://github.com/famiprog/redmine_goodies/pull/10)
 
