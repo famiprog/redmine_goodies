@@ -56,7 +56,7 @@ module RedmineGoodiesHelper
         if value.nil?
             cf_issue.value = cf_issue.custom_field.default_value.presence || nil
         else
-            cf_issue.value = !value.is_a?(ActiveSupport::TimeWithZone) ? value : value.strftime("%m/%d/%Y")
+            cf_issue.value = value.respond_to?(:strftime) ? value.strftime("%Y-%m-%d") : value
         end
         return true
     end
@@ -68,7 +68,7 @@ module RedmineGoodiesHelper
         end
         return nil unless column
         value = column.value(issue)
-        return value.respond_to?(:name) ? value.name : value.to_s
+        return value.respond_to?(:name) ? value.name : value
     end
 
     def get_field_previous_value(attr_name, issue)
