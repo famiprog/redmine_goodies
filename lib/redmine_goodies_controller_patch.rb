@@ -1,10 +1,14 @@
 module RedmineGoodiesControllerPatch
+    include RedmineGoodiesHelper
+
     def self.included(base)
         base.send(:include, InstanceMethods)
         base.send(:after_action, :remove_lazy_loading_img)
         base.send(:after_action, :collapsible_images)
+        base.send(:before_action, :actions_to_trigger_when_fields_changed, if: -> { request.path.include?("/issues/") })
+        base.send(:after_action, :check_actions_to_trigger_when_fields_changed_json, if: -> { request.path.include?("/settings/plugin") })
     end
-     
+
     module InstanceMethods
         def remove_lazy_loading_img
             if RedmineGoodiesSettings.remove_lazy_loading?
@@ -25,6 +29,38 @@ module RedmineGoodiesControllerPatch
                 response.body = response.body.gsub(/<img(?![^>]*\b(class="[^"]*\bfilecontent\b[^"]*"|\bsrcset\b))[^>]*\bsrc="\/attachments\/download[^"]*"[^>]*>/) do |img|
                     "<details class=\"collapsible-img\"><summary><span class=\"icon-image-collapsible\"></span><a class=\"expand-collapse-btn\" onclick=\"addBackgroundToCollapsibleImage(event.target?.parentElement.parentElement)\">Click to expand/collapse image</a> | <a href=\"#\" onclick=\"expandAll(event); return false;\">Expand all</a> | <a href=\"#\" onclick=\"collapseAll(event); return false;\">Collapse all</a></summary>#{img}</details>"
                 end
+            end
+        end
+
+        def check_actions_to_trigger_when_fields_changed_json
+            begin
+                actions_to_trigger_when_fields_changed = JSON.parse(RedmineGoodiesSettings.get_setting(:actions_to_trigger_when_fields_changed))
+                actions_to_trigger_when_fields_changed.each do |field_actions|
+                    unless field_actions.is_a?(Hash) && field_actions.key?(RedmineGoodiesHelper::JSON_FIELDS[:FIELD]) && (field_actions.key?(RedmineGoodiesHelper::JSON_FIELDS[:FROM_VALUE]) || field_actions.key?(RedmineGoodiesHelper::JSON_FIELDS[:TO_VALUE])) && field_actions.key?(RedmineGoodiesHelper::JSON_FIELDS[:ACTIONS])
+                        raise StandardError, "Missing or wrong keys in json: #{field_actions.inspect}"
+                    end
+                end
+            rescue JSON::ParserError => e
+                flash.discard(:notice)
+                flash[:error] = "Error parsing JSON: #{e.message}"
+            rescue StandardError => e
+                flash.discard(:notice)
+                flash[:error] = e.message
+            end
+        end
+
+        def actions_to_trigger_when_fields_changed
+            issue = Issue.find_by(id: params[:id])
+            if issue.nil? || RedmineGoodiesSettings.get_setting(:actions_to_trigger_when_fields_changed).blank?
+                return
+            end
+            trigger_actions = JSON.parse(RedmineGoodiesSettings.get_setting(:actions_to_trigger_when_fields_changed))
+            trigger_actions.each do |field_actions|
+                apply_actions(issue, field_actions)
+            end
+            if !issue.save
+                flash[:error] = l(:actions_to_trigger_when_fields_are_changed_status_error, issue_id: issue.id)
+                return
             end
         end
     end

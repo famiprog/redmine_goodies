@@ -135,6 +135,26 @@ Even if the question has an answer, it is not marked as answered. Also, when you
 
 </details>
 
+## Actions to trigger when fields are changed
+
+<details>
+
+In the plugin's settings, you can set the **actions** using a JSON, such as:
+
+![](img-readme/actions_settings.png)
+
+Before status changes:
+
+![](img-readme/actions_issue_before_field_changes.png)
+
+WHEN field **Status** is changed to "To review", THEN the **Pr dev** field is reset to the default value; **Pr reviewer** is set to 1, AND in **Dummy field** is copied the value from **Status** field:
+
+![](img-readme/actions_issue_after_field_changed.png)
+
+Available list of actions: ["reset-field", "set-value", "copy-to-field"]
+
+</details>
+
 # Licenses for third party components/assets
 
 We use some icons from [Google Fonts](https://fonts.google.com/icons), licensed under [Apache License v2](https://www.apache.org/licenses/LICENSE-2.0.html)

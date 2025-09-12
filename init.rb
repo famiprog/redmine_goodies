@@ -8,12 +8,14 @@ Redmine::Plugin.register :redmine_goodies do
 
     settings :default => {'empty' => true, 
                             :remove_lazy_loading => '1',
-                            :collapsible_images => '0'}, 
+                            :collapsible_images => '0',
+                            :actions_to_trigger_when_fields_changed => '[]'}, 
              :partial => 'settings/redmine_goodies_settings'
-  
+
     require File.expand_path('lib/redmine_goodies_hook_listener', __dir__)
     require File.expand_path('lib/redmine_goodies_settings', __dir__)
     require File.expand_path('lib/redmine_goodies_macros', __dir__)
+    Redmine::Hook::Helper.include RedmineGoodiesHelper
     Redmine::Hook::Helper.include QuestionsSystemHelper
     ApplicationController.send(:include, RedmineGoodiesControllerPatch)
 end

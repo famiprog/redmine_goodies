@@ -5,6 +5,38 @@ en:
     settings_controller_collapsible_images: Collapsible images
     settings_controller_collapsible_images_text: To avoid cluttering Redmine pages with too many images, this setting will allow you to collapse or expand each image individually or all at once.
 
+    actions_to_trigger_when_fields_are_changed_title: Actions to trigger when fields are changed
+    actions_to_trigger_when_fields_are_changed_explanation: |
+        A JSON, e.g.:
+
+        [
+            {
+                "field": "Status",
+                "fromValue": "Assigned",
+                "toValue": "To review",
+                "actions": [
+                    {
+                        "action": "set-value",
+                        "newValue": 1,
+                        "field": "Pr reviewer"
+                    },
+                    {
+                        "action": "reset-field",
+                        "field": "Pr dev"
+                    },
+                    {
+                        "action": "copy-to-field",
+                        "field": "Dummy field"
+                    }
+                ]
+            }
+        ]
+
+    actions_to_trigger_when_fields_are_changed_status: '<p>After the modification of the "%{field_name}" field, the following actions were applied: </p>'
+    actions_to_trigger_when_fields_are_changed_status_success: '"%{action_performed}" action was applied on "%{field_name}" field'
+    actions_to_trigger_when_fields_are_changed_status_error: Failed to save modifications to issue "%{issue_id}"
+    actions_to_trigger_when_fields_are_changed_status_warning: Custom field "%{cf_name}" not found for issue "%{issue_id}". Please review the JSON.
+
     questions_system_add_answer: Add answer
     questions_system_no_answer: Not yet answered,
     questions_system_note_id_unknown: note id unknown/needs page refresh
