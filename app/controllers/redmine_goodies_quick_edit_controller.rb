@@ -39,6 +39,11 @@ class RedmineGoodiesQuickEditController < ApplicationController
           end
         end
 
+        
+        # TODO discussion in progress in PR for better solution
+        # BEGIN
+        # issue.save!
+
         # If Crispico prefix / copy-field logic is available, reuse it so that
         # subject prefixes and "on field1 modified => copy to field2" continue to work.
         if respond_to?(:get_subject_without_prefix) && respond_to?(:compute_prefix_from_parent_id)
@@ -61,6 +66,7 @@ class RedmineGoodiesQuickEditController < ApplicationController
         if issue.save! && respond_to?(:after_save_issue) && default_context
           after_save_issue(default_context)
         end
+        # END
       end
     end
 
