@@ -1,0 +1,29 @@
+<h3 class="title"><%= l(:quick_edit_modal_title) %></h3>
+
+<%= form_tag(redmine_goodies_update_field_path(:ids => @issue_ids, :field_name => @field_name),
+             :method => :post,
+             :id => 'edit-field-form') do %>
+
+    <fieldset class="box">
+      <div id="field_name">
+      <%= label_tag 'edit_field_value', @field_name %>
+      <%= text_field_tag(:edit_field_value, @field_value, :style => 'width: 345px;') %>
+      <% if @field_info.name == :parent %>
+        <%# copied from _attributes.html in redmine sources and applied to our values %>
+        <%= javascript_tag "observeAutocompleteField('edit_field_value', '#{escape_javascript(auto_complete_issues_path(:project_id => @issues.first.project, :scope => Setting.cross_project_subtasks, :status => @issues.first.closed? ? 'c' : 'o', :issue_id => @issues.first.id))}')" %>
+      <% end %>
+      </div>
+    </fieldset>
+
+    <div class="buttons">
+      <%= submit_tag l(:quick_edit_ok), :name => nil %>
+      <%= submit_tag l(:button_cancel), :name => nil, :onclick => "hideModal(this);", :type => 'button' %>
+    </div>
+
+    <%= hidden_field_tag :js_position %>
+<% end %>
+
+<%= javascript_tag do %>
+  $('input#js_position').val($(window).scrollTop())
+<% end %>
+

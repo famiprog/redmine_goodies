@@ -1,6 +1,0 @@
-fr:
-    settings_controller_remove_lazy: Supprimer le chargement paresseux
-    settings_controller_remove_lazy_text: Les images dans Redmine ont laoding="lazy". Pour cette raison, la page est rendue avant d'être chargée. Et puis ils sont chargés, et ils apparaissent un par un (la barre de défilement augmentant à chaque fois au cours de ce processus). Une conséquence est que les URL avec ancre ne fonctionnent plus bien. Par exemple https://.../myPage#myAnchor. Au clic, la page défile correctement. Mais ensuite, les images se chargent et « poussent » le défilement, se terminant la plupart du temps avec la partie ancrée souhaitée hors de l'écran.
-
-    settings_controller_collapsible_images: Images repliables
-    settings_controller_collapsible_images_text: Pour éviter d'encombrer les pages Redmine avec trop d'images, ce paramètre vous permettra de réduire ou d'étendre chaque image individuellement ou toutes en même temps.

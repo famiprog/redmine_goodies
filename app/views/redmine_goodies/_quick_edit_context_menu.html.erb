@@ -1,0 +1,44 @@
+<%
+  # Use redmine_goodies' own settings and quick-edit controller.
+  fields_to_edit = nil
+
+  fields_settings = RedmineGoodiesSettings.fields_to_quick_edit
+
+  if fields_settings.present?
+    fields_to_edit = fields_settings.split(/\s*,\s*/).collect { |field| field.strip }
+  end
+
+  if RedmineGoodiesSettings.add_parent_to_quick_edit?
+    # create an empty list in case the above code did not fill it
+    fields_to_edit = fields_to_edit || []
+    I18n.with_locale(:en) do
+      # get the Field name from english
+      fields_to_edit << l(:field_parent_issue)
+    end
+  end
+%>
+
+<% if User.current.allowed_to?(:edit_issues, @projects || @project) %>
+  <li class="folder">
+    <a href="#" class="submenu icon icon-edit"><%= l(:quick_edit_modal_title) %></a>
+    <ul>
+      <% if fields_to_edit.present? %>
+        <% fields_to_edit.each do |item| %>
+          <% if item == "Parent task" %>
+            <li class="menu-separator" style="border-top: 1px solid #ccc; margin: 5px 0; padding: 0; height: 0; list-style: none; line-height: 0;"></li>
+          <% end %>
+          <li>
+            <%= context_menu_link h(item),
+                                  redmine_goodies_edit_field_path(:ids => @issue_ids, :field_name => item),
+                                  :remote => true %>
+          </li>
+        <% end %>
+      <% else %>
+        <li>
+          <span class="icon icon-warning"><%= l(:quick_edit_no_fields_configured) %></span>
+        </li>
+      <% end %>
+    </ul>
+  </li>
+<% end %>
+

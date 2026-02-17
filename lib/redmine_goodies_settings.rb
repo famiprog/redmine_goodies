@@ -13,4 +13,12 @@ class RedmineGoodiesSettings
     def self.collapsible_images?
         return get_setting(:collapsible_images) == '1'
     end
+
+    def self.fields_to_quick_edit
+        get_setting(:fields_to_quick_edit)
+    end
+
+    def self.add_parent_to_quick_edit?
+        get_setting(:add_parent_to_quick_edit) == '1'
+    end
 end

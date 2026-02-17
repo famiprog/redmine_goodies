@@ -8,7 +8,9 @@ Redmine::Plugin.register :redmine_goodies do
 
     settings :default => {'empty' => true, 
                             :remove_lazy_loading => '1',
-                            :collapsible_images => '0'}, 
+                            :collapsible_images => '0',
+                            :fields_to_quick_edit => '',
+                            :add_parent_to_quick_edit => '0'}, 
              :partial => 'settings/redmine_goodies_settings'
   
     require File.expand_path('lib/redmine_goodies_hook_listener', __dir__)

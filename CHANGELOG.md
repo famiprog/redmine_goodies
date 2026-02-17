@@ -1,3 +1,9 @@
+## Unreleased
+
+## v2.0.0
+
+* [Quick edit field](./_FEATUREBOOK/featurebook/QuickEditFieldTad.md)
+
 ## v1.1.0
 * [New button for Markdown editors: Add collapsible section](https://github.com/famiprog/redmine_goodies/pull/7)
 

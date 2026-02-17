@@ -4,3 +4,15 @@ en:
 
     settings_controller_collapsible_images: Collapsible images
     settings_controller_collapsible_images_text: To avoid cluttering Redmine pages with too many images, this setting will allow you to collapse or expand each image individually or all at once.
+
+    quick_edit_fields_setting: Fields to show in quick edit menu
+    quick_edit_fields_setting_notes: Use only fields that accepts "string" values (no objects like Issues, Users, ...)
+    quick_edit_fields_add_parent: Add "Parent task" to quick edit menu
+    quick_edit_modal_title: Quick edit field
+    quick_edit_fail_update: Fail to update field! <br/> %{error}
+    quick_edit_ok: Ok
+    quick_edit_no_fields_configured: Nothing configured. Please use the plugin's configuration page.
+    assist_subtask_settings_fields_note: Normal or custom fields. Respect capitalization and spaces. 
+    assist_subtask_settings_fields_note_2: 'Multiple values allowed (comma separated). Example: "Status update, Release notes"'
+    assist_subtask_settings_fields_note_3: The names can usually be found when customizing columns per list of issues.
+    assist_subtask_settings_fields_note_4: Use only the english names.
