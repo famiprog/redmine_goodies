@@ -3,19 +3,19 @@ en:
     settings_controller_remove_lazy_text: The images in Redmine have loading="lazy". Because of this, the page is rendered before they are loaded. And then they are loaded, and they appear one by one (the scroll bar growing each time during this process). A consequence is that URLs w/ anchor don't work well any more. E.g. https://.../myPage#myAnchor. On click, the page scrolls correctly. But then the images load and "push" the scroll, ending most of the times w/ the desired anchored portion out of the screen.
 
     settings_controller_collapsible_images: Collapsible images
-	settings_controller_collapsible_images_text: To avoid cluttering Redmine pages with too many images, this setting will allow you to collapse or expand each image individually or all at once.
+    settings_controller_collapsible_images_text: To avoid cluttering Redmine pages with too many images, this setting will allow you to collapse or expand each image individually or all at once.
 
-	questions_system_add_answer: Add answer
-	questions_system_no_answer: Not yet answered,
-	questions_system_note_id_unknown: note id unknown/needs page refresh
-	questions_system_message_id_unknown: message id unknown/needs page refresh
-	questions_system_note_info: "<p class=\"questions_system_info\"><i>NOTE: these questions were added using the <span class=\"jstb_questions_macro\"></span> button. For answering, please use the \"Add answer\" button. This way the questions/answers will be linked together.</i></p>"
-	questions_system_invalid_question_macro: "<p style=\"color: red\"><b>Error:</b> Invalid argument for the questions macro. It must be a number.<p>"
-	questions_system_invalid_answer_macro: "<p style=\"color: red\"><b>Error:</b> Invalid arguments for answer macro.<p>"
-	questions_system_question_macro_text: "<b>Question: <a href=\"%{note_link}\">%{note_link}</a>, %{number}/</b>"
-	questions_system_answer_macro_text: "<span class=\"answer-macro\">Answer for <a href=\"%{note_ref}\">%{note_ref}</a>, %{number}</span>"
-	questions_system_answered_in: '<i class=\"icon icon-checked\" style=\"padding-left: 15px;\"></i><span class=\"answers\">Answered in <a href=#undefined>#undefined</a></span>,&nbsp;'
-		
+    questions_system_add_answer: Add answer
+    questions_system_no_answer: Not yet answered,
+    questions_system_note_id_unknown: note id unknown/needs page refresh
+    questions_system_message_id_unknown: message id unknown/needs page refresh
+    questions_system_note_info: "<p class=\"questions_system_info\"><i>NOTE: these questions were added using the <span class=\"jstb_questions_macro\"></span> button. For answering, please use the \"Add answer\" button. This way the questions/answers will be linked together.</i></p>"
+    questions_system_invalid_question_macro: "<p style=\"color: red\"><b>Error:</b> Invalid argument for the questions macro. It must be a number.<p>"
+    questions_system_invalid_answer_macro: "<p style=\"color: red\"><b>Error:</b> Invalid arguments for answer macro.<p>"
+    questions_system_question_macro_text: "<b>Question: <a href=\"%{note_link}\">%{note_link}</a>, %{number}/</b>"
+    questions_system_answer_macro_text: "<span class=\"answer-macro\">Answer for <a href=\"%{note_ref}\">%{note_ref}</a>, %{number}</span>"
+    questions_system_answered_in: '<i class=\"icon icon-checked\" style=\"padding-left: 15px;\"></i><span class=\"answers\">Answered in <a href=#undefined>#undefined</a></span>,&nbsp;'
+        
     quick_edit_fields_setting: Fields to show in quick edit menu
     quick_edit_fields_setting_notes: Use only fields that accepts "string" values (no objects like Issues, Users, ...)
     quick_edit_fields_add_parent: Add "Parent task" to quick edit menu
