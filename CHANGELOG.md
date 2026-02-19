@@ -1,3 +1,9 @@
+## Unreleased
+
+## v2.0.0
+
+* [Quick edit field](./_FEATUREBOOK/featurebook/QuickEditFieldTad.md)
+
 ## 1.1.3:
 * [Fixing uncaught ReferenceError: jsToolBar is not defined](https://github.com/famiprog/redmine_goodies/pull/12)
 

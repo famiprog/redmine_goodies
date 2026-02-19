@@ -11,3 +11,20 @@
     <%= check_box_tag 'settings[collapsible_images]', 1, Setting.plugin_redmine_goodies[:collapsible_images] == '1' %>
     <em class="info"><%= l(:settings_controller_collapsible_images_text) %></em>
 </p>
+
+<hr/>
+
+<p>
+    <label for="settings_fields_to_quick_edit"><%= l(:quick_edit_fields_setting) %> </label>
+    <%= text_area_tag "settings[fields_to_quick_edit]", Setting.plugin_redmine_goodies[:fields_to_quick_edit], :rows=> 3 %>
+    <em class="info"><%= l(:assist_subtask_settings_fields_note) %></em>
+    <em class="info"><%= l(:quick_edit_fields_setting_notes) %></em>
+    <em class="info"><%= l(:assist_subtask_settings_fields_note_2) %></em>
+    <em class="info"><%= l(:assist_subtask_settings_fields_note_3) %></em>
+    <em class="info"><%= l(:assist_subtask_settings_fields_note_4) %></em>
+</p>
+<p>
+    <label for="settings_add_parent_to_quick_edit"><%= l(:quick_edit_fields_add_parent) %> </label>
+    <%= hidden_field_tag 'settings[add_parent_to_quick_edit]', 0, :id => nil %>
+    <%= check_box_tag 'settings[add_parent_to_quick_edit]', 1, Setting.plugin_redmine_goodies[:add_parent_to_quick_edit] == '1' %>
+</p>
