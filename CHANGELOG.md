@@ -4,6 +4,15 @@
 
 * [Quick edit field](./_FEATUREBOOK/featurebook/QuickEditFieldTad.md)
 
+## 1.1.3:
+* [Fixing uncaught ReferenceError: jsToolBar is not defined](https://github.com/famiprog/redmine_goodies/pull/12)
+
+## 1.1.2:
+* [Add improvements and correct some bugs](https://github.com/famiprog/redmine_goodies/pull/10)
+
+## v1.1.1
+* [Collapsible section button available on every html editor](https://github.com/famiprog/redmine_goodies/pull/9)
+
 ## v1.1.0
 * [New button for Markdown editors: Add collapsible section](https://github.com/famiprog/redmine_goodies/pull/7)
 
