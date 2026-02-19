@@ -29,7 +29,10 @@ class RedmineGoodiesQuickEditController < ApplicationController
           issue.custom_field_values
           issue.custom_field_values = { @field_info.custom_field[:id] => value }
         elsif @field_info.name == :parent
-          # we need to set parent_issue_id so that Redmine properly updates the tree
+          # we need to set parent_issue_id and not parent
+          # so that redmine properly updates the tree
+          # also it knows to validate the info in case it is nil, not integer
+          # or the same id as the current issue
           issue.parent_issue_id = value
         else
           if issue.has_attribute?(@field_info.name)
