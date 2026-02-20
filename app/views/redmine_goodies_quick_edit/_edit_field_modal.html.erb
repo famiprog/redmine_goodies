@@ -6,7 +6,7 @@
 
     <fieldset class="box">
       <div id="field_name">
-      <%= label_tag 'edit_field_value', @field_name %>
+      <%= label_tag 'edit_field_value', @field_display_name %>
       <%= text_field_tag(:edit_field_value, @field_value, :style => 'width: 345px;') %>
       <% if @field_info.name == :parent %>
         <%# copied from _attributes.html in redmine sources and applied to our values %>
@@ -15,9 +15,9 @@
       </div>
     </fieldset>
 
-    <div class="buttons">
-      <%= submit_tag l(:quick_edit_ok), :name => nil %>
-      <%= submit_tag l(:button_cancel), :name => nil, :onclick => "hideModal(this);", :type => 'button' %>
+    <div class="buttons" style="text-align: center;">
+      <%= submit_tag l(:quick_edit_ok), :name => nil, :style => 'height: 28px; box-sizing: border-box;' %>
+      <%= submit_tag l(:button_cancel), :name => nil, :onclick => "hideModal(this);", :type => 'button', :style => 'height: 28px; box-sizing: border-box;' %>
     </div>
 
     <%= hidden_field_tag :js_position %>

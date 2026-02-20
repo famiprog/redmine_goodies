@@ -21,9 +21,11 @@ en:
     quick_edit_fields_add_parent: Add "Parent task" to quick edit menu
     quick_edit_modal_title: Quick edit field
     quick_edit_fail_update: Fail to update field! <br/> %{error}
-    quick_edit_ok: Ok
+    quick_edit_ok: OK
     quick_edit_no_fields_configured: Nothing configured. Please use the plugin's configuration page.
+    quick_edit_read_only: read only
     assist_subtask_settings_fields_note: Normal or custom fields. Respect capitalization and spaces. 
     assist_subtask_settings_fields_note_2: 'Multiple values allowed (comma separated). Example: "Status update, Release notes"'
     assist_subtask_settings_fields_note_3: The names can usually be found when customizing columns per list of issues.
     assist_subtask_settings_fields_note_4: Use only the english names.
+    assist_subtask_settings_fields_note_5: 'Custom fields can also be referenced by ID using the syntax cf_N (e.g. cf_5). The ID appears in the URL on the custom field administration page.'
