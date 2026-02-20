@@ -8,6 +8,8 @@ module RedmineGoodiesQuickEditHelper
   end
 
   def self.get_issue_field_value(issue, field)
+    return nil if issue.nil? || field.nil?
+
     if field.is_a?(QueryCustomFieldColumn)
       issue.custom_field_value(field.custom_field[:id])
     elsif issue.has_attribute?(field.name)
