@@ -8,6 +8,7 @@ class RedmineGoodiesQuickEditController < ApplicationController
     @issues ||= []
     @issue_ids = @issues.map(&:id)
     @field_name = params[:field_name]
+    @field_display_name = RedmineGoodiesQuickEditHelper.get_display_name(@field_name)
 
     @field_value = get_issue_field_value(@issues.first, @field_info)
 

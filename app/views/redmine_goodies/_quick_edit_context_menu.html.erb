@@ -24,11 +24,12 @@
     <ul>
       <% if fields_to_edit.present? %>
         <% fields_to_edit.each do |item| %>
-          <% if item == "Parent task" %>
+          <% display_name = RedmineGoodiesQuickEditHelper.get_display_name(item) %>
+          <% if display_name == "Parent task" %>
             <li class="menu-separator" style="border-top: 1px solid #ccc; margin: 5px 0; padding: 0; height: 0; list-style: none; line-height: 0;"></li>
           <% end %>
           <li>
-            <%= context_menu_link h(item),
+            <%= context_menu_link h(display_name),
                                   redmine_goodies_edit_field_path(:ids => @issue_ids, :field_name => item),
                                   :remote => true %>
           </li>
