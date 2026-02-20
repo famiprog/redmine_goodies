@@ -2,6 +2,10 @@
 
 # Features
 
+Featurebook: click on `.md` files from [this dir](_FEATUREBOOK/featurebook/).
+
+Other features are documented below.
+
 ## Button for `<details>` tag
 
 <details>
