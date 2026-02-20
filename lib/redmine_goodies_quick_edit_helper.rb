@@ -37,5 +37,30 @@ module RedmineGoodiesQuickEditHelper
       issue.public_send(field.name)
     end
   end
+
+  # Returns true if the given field can be edited by the user on the given issues.
+  # Checks (in order):
+  #   1. edit_issues permission on every project involved
+  #   2. For custom fields: the global editable flag and role-based CF visibility
+  #   3. Workflow field permissions (read-only rules set per tracker/status/role)
+  def self.field_editable_by?(field_info, issues, user)
+    return false if field_info.nil? || issues.blank?
+
+    projects = issues.map(&:project).uniq
+    return false unless projects.all? { |p| user.allowed_to?(:edit_issues, p) }
+
+    if field_info.is_a?(QueryCustomFieldColumn)
+      cf = field_info.custom_field
+      return false unless cf.editable?
+      return false if cf.roles.present? && projects.any? { |p| (user.roles_for_project(p) & cf.roles).empty? }
+      # Redmine's read_only_attribute_names returns custom fields as their plain numeric id string (e.g. "5", not "cf_5")
+      attr_name = cf.id.to_s
+    else
+      attr_name = field_info.name.to_s
+    end
+
+    # Workflow field permissions: the field must not be read-only on any of the issues
+    issues.none? { |issue| issue.read_only_attribute_names(user).include?(attr_name) }
+  end
 end
 

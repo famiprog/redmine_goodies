@@ -2,6 +2,7 @@ class RedmineGoodiesQuickEditController < ApplicationController
 
   before_action :find_issues, :only => [:edit_field, :update_field]
   before_action :find_field_info, :only => [:edit_field, :update_field]
+  before_action :check_field_permission, :only => [:edit_field, :update_field]
 
   # prepare data for modal form
   def edit_field
@@ -95,6 +96,12 @@ class RedmineGoodiesQuickEditController < ApplicationController
   def find_field_info
     fields = RedmineGoodiesQuickEditHelper.get_list_of_fields([params[:field_name]])
     @field_info = fields[0]
+  end
+
+  def check_field_permission
+    unless RedmineGoodiesQuickEditHelper.field_editable_by?(@field_info, @issues, User.current)
+      render_403
+    end
   end
 
   def get_issue_field_value(issue, field)

@@ -25,13 +25,19 @@
       <% if fields_to_edit.present? %>
         <% fields_to_edit.each do |item| %>
           <% display_name = RedmineGoodiesQuickEditHelper.get_display_name(item) %>
+          <% field_info = RedmineGoodiesQuickEditHelper.get_list_of_fields([item]).first %>
+          <% editable = RedmineGoodiesQuickEditHelper.field_editable_by?(field_info, @issues, User.current) %>
           <% if display_name == "Parent task" %>
             <li class="menu-separator" style="border-top: 1px solid #ccc; margin: 5px 0; padding: 0; height: 0; list-style: none; line-height: 0;"></li>
           <% end %>
           <li>
-            <%= context_menu_link h(display_name),
-                                  redmine_goodies_edit_field_path(:ids => @issue_ids, :field_name => item),
-                                  :remote => true %>
+            <% if editable %>
+              <%= context_menu_link h(display_name),
+                                    redmine_goodies_edit_field_path(:ids => @issue_ids, :field_name => item),
+                                    :remote => true %>
+            <% else %>
+              <%= context_menu_link "#{display_name} (#{l(:quick_edit_read_only)})", '#', :onclick => 'return false;' %>
+            <% end %>
           </li>
         <% end %>
       <% else %>
