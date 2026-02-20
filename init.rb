@@ -9,6 +9,8 @@ Redmine::Plugin.register :redmine_goodies do
     settings :default => {'empty' => true, 
                             :remove_lazy_loading => '1',
                             :collapsible_images => '0',
+                            :reposition_context_submenu => '1',
+                            :context_submenu_max_height => '',
                             :fields_to_quick_edit => '',
                             :add_parent_to_quick_edit => '0'}, 
              :partial => 'settings/redmine_goodies_settings'

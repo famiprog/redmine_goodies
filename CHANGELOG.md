@@ -4,6 +4,7 @@
 * [Quick edit field](./_FEATUREBOOK/featurebook/QuickEditFieldTad.md), migrated from an internal plugin project. W/ some improvements:
   * Possibility to enter custom fields also by id
   * Permission check per field: server returns 403 if the field is not editable; menu shows the entry as disabled (read only) if not editable
+* [Quality of life](./_FEATUREBOOK/featurebook/QualityOfLifeTad.md)
 
 ## v2.0.0
 

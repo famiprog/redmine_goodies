@@ -5,6 +5,14 @@ en:
     settings_controller_collapsible_images: Collapsible images
     settings_controller_collapsible_images_text: To avoid cluttering Redmine pages with too many images, this setting will allow you to collapse or expand each image individually or all at once.
 
+    settings_quality_of_life: Quality of life
+    settings_reposition_context_submenu: Reposition sub-menu of context menu
+    settings_reposition_context_submenu_text: 'Sometimes, with the context menu open, when opening a sub-menu: the "child" sub menu is too high and exits the screen. Hence we have some JS code that works around this issue by repositioning the popup.'
+
+    settings_context_submenu_max_height: 'Override max-height for context sub-menu'
+    settings_context_submenu_max_height_text1: 'When there are several actions in the sub-menu, at some point the max-height is reached and a scroll bar appears. The Redmine default is about 300px, which means about 15 lines.'
+    settings_context_submenu_max_height_text2: 'E.g. 600 or 600px. Leave empty for no override.'
+
     questions_system_add_answer: Add answer
     questions_system_no_answer: Not yet answered,
     questions_system_note_id_unknown: note id unknown/needs page refresh

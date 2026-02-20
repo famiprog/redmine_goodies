@@ -11,11 +11,25 @@ class QuickEditFieldTad {
      * And then:
      * 
      * @img popup.png
-     * 
-     * In the plugin configuration screen:
-     * 
-     * @img config.png
      */
     @Scenario()
     _quickInstructions() { }
+
+    /**
+     * In the plugin configuration screen:
+     * 
+     * @img image.png
+     */
+    @Scenario
+    feature_settings() { }
+
+    
+    /**
+     * In order to access the feature, the "edit issue" permission needs to be present.
+     * And the field needs to be "read/write". E.g. if read only:
+     * 
+     * @img image.png
+     */
+    @Scenario
+    feature_permissions() { }
 }

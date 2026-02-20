@@ -1,3 +1,9 @@
+<% if (context_submenu_max_height_css = RedmineGoodiesSettings.context_submenu_max_height_css) %>
+    <% content_for :header_tags do %>
+        <style>#context-menu li.folder ul { max-height: <%= context_submenu_max_height_css %> !important; }</style>
+    <% end %>
+<% end %>
+
 <% content_for :header_tags do %>
     <%# ============= Register macros  ============= %>
     <%= stylesheet_link_tag 'collapsible_images', :plugin => 'redmine_goodies' %>
@@ -14,6 +20,26 @@
     <%= javascript_tag do %>
         document.addEventListener("DOMContentLoaded", (event) => {
             getIsCollapsedValueFromLocalStorage()
+        });
+    <% end %>
+<% end %>
+
+<% if RedmineGoodiesSettings.reposition_context_submenu? %>
+    <%= javascript_tag do %>
+        jQuery(document).ready(function() {
+            // Fix submenu positioning when it gets clipped at the top
+            jQuery(document).on('mouseenter', '#context-menu li.folder', function() {
+                var $sub = jQuery(this).children('ul').first();
+                if ($sub.length === 0) return;
+                setTimeout(function() {
+                    var el = $sub[0];
+                    var rect = el.getBoundingClientRect();
+                    if (rect.top < 0) {
+                        el.style.top = "0px";
+                        el.style.bottom = "auto";
+                    }
+                }, 50);
+            });
         });
     <% end %>
 <% end %>
