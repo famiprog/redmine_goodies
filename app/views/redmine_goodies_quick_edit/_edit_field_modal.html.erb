@@ -1,3 +1,8 @@
+<style>
+#ajax-modal { padding-bottom: 0 !important; min-height: 0 !important; }
+#ajax-modal #edit-field-form { margin-bottom: 0 !important; }
+#ajax-modal .box { margin-bottom: 0.6em !important; }
+</style>
 <h3 class="title"><%= l(:quick_edit_modal_title) %></h3>
 
 <%= form_tag(redmine_goodies_update_field_path(:ids => @issue_ids, :field_name => @field_name),
@@ -12,7 +17,7 @@
       <% end %>
 
       <div id="field_name">
-        <%= label_tag 'edit_field_value', @field_name %>
+        <%= label_tag 'edit_field_value', @field_display_name %>
         <%= text_field_tag(:edit_field_value, @field_value, :style => 'width: 345px;') %>
         <% if @field_info.name == :parent %>
           <%# copied from _attributes.html in redmine sources and applied to our values %>
@@ -21,10 +26,10 @@
       </div>
     </fieldset>
 
-    <div class="buttons">
-      <%= submit_tag l(:quick_edit_ok), :name => nil %>
+    <div class="buttons" style="text-align: center; margin-bottom: 0;">
+      <%= submit_tag l(:quick_edit_ok), :name => nil, :style => 'height: 28px; box-sizing: border-box;' %>
       <% cancel_onclick = @modal_cancel_reload ? "hideModal(this); window.location.reload();" : "hideModal(this);" %>
-      <%= submit_tag l(:button_cancel), :name => nil, :onclick => cancel_onclick, :type => 'button' %>
+      <%= submit_tag l(:button_cancel), :name => nil, :onclick => cancel_onclick, :type => 'button', :style => 'height: 28px; box-sizing: border-box;' %>
     </div>
 
     <%= hidden_field_tag :js_position %>

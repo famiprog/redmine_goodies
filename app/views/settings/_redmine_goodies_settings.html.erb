@@ -13,6 +13,7 @@
 </p>
 
 <hr/>
+<h3><%= l(:quick_edit_modal_title) %></h3>
 
 <p>
     <label for="settings_fields_to_quick_edit"><%= l(:quick_edit_fields_setting) %> </label>
@@ -22,9 +23,25 @@
     <em class="info"><%= l(:assist_subtask_settings_fields_note_2) %></em>
     <em class="info"><%= l(:assist_subtask_settings_fields_note_3) %></em>
     <em class="info"><%= l(:assist_subtask_settings_fields_note_4) %></em>
+    <em class="info"><%= l(:assist_subtask_settings_fields_note_5) %></em>
 </p>
 <p>
     <label for="settings_add_parent_to_quick_edit"><%= l(:quick_edit_fields_add_parent) %> </label>
     <%= hidden_field_tag 'settings[add_parent_to_quick_edit]', 0, :id => nil %>
     <%= check_box_tag 'settings[add_parent_to_quick_edit]', 1, Setting.plugin_redmine_goodies[:add_parent_to_quick_edit] == '1' %>
+</p>
+
+<hr/>
+<h3><%= l(:settings_quality_of_life) %></h3>
+<p>
+    <label for="settings_reposition_context_submenu"><%= l(:settings_reposition_context_submenu) %></label>
+    <%= hidden_field_tag 'settings[reposition_context_submenu]', 0, :id => nil %>
+    <%= check_box_tag 'settings[reposition_context_submenu]', 1, Setting.plugin_redmine_goodies[:reposition_context_submenu] != '0' %>
+    <em class="info"><%= l(:settings_reposition_context_submenu_text) %></em>
+</p>
+<p>
+    <label for="settings_context_submenu_max_height"><%= l(:settings_context_submenu_max_height) %></label>
+    <%= text_field_tag 'settings[context_submenu_max_height]', Setting.plugin_redmine_goodies[:context_submenu_max_height], :size => 10, :placeholder => '' %>
+    <em class="info"><%= l(:settings_context_submenu_max_height_text1) %></em>
+    <em class="info"><%= l(:settings_context_submenu_max_height_text2) %></em>
 </p>

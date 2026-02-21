@@ -2,13 +2,15 @@ Redmine::Plugin.register :redmine_goodies do
     name 'Redmine goodies'
     author 'famiprog'
     description 'For detailed documentation see the link below.'
-    version '1.1.3'
+    version '2.0.0'
     url 'https://github.com/famiprog/redmine_goodies'
     author_url 'https://github.com/famiprog'
 
     settings :default => {'empty' => true, 
                             :remove_lazy_loading => '1',
                             :collapsible_images => '0',
+                            :reposition_context_submenu => '1',
+                            :context_submenu_max_height => '',
                             :fields_to_quick_edit => '',
                             :add_parent_to_quick_edit => '0'}, 
              :partial => 'settings/redmine_goodies_settings'
