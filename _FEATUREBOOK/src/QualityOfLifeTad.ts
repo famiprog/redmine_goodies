@@ -31,4 +31,14 @@ class QualityOfLifeTad {
      */
     @Scenario()
     feature_overrideMaxHeightOfSubmenu() {}
+
+    /**
+     * The defaults work like this: if no settings in DB OR settings exists in DB but no explicit value for a particular setting =>
+     * the default is applied. 
+     * 
+     * This is for the use case: an user has already our plugin. He/she updates to a new version of plugin => defaults are applied
+     * automatically.
+     */
+    @Scenario()
+    feature_defaultValuesForSettings() {}
 }

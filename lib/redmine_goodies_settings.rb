@@ -3,7 +3,20 @@ class RedmineGoodiesSettings
     public
 
     def self.get_setting(name)
-        return Setting.plugin_redmine_goodies[name]
+        value = Setting.plugin_redmine_goodies[name]
+        # Return default value if setting is nil (e.g. new setting after upgrade)
+        if value.nil?
+            defaults = {
+                :remove_lazy_loading => '1',
+                :collapsible_images => '0',
+                :reposition_context_submenu => '1',
+                :context_submenu_max_height => '',
+                :fields_to_quick_edit => '',
+                :add_parent_to_quick_edit => '0'
+            }
+            return defaults[name]
+        end
+        value
     end
 
     def self.remove_lazy_loading?
