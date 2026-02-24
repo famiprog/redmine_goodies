@@ -47,6 +47,10 @@ en:
     settings_reorder_enable_for_blacklist: 'Black list: all except the specified fields'
     settings_reorder_specified_fields: Specified fields
     settings_reorder_specified_fields_text: 'Similar to "%{quick_edit_fields_setting}", but only for float custom fields.'
+    settings_reorder_force_fields: Force enablement for fields
+    settings_reorder_force_fields_text1: 'The "reorder" feature activates by looking at the header cell of the column: is the CF of type float? Is the column sorted by this column?'
+    settings_reorder_force_fields_text2: 'For the fields "forced", these conditions are not checked, and the feature is forced.'
+    settings_reorder_force_fields_text3: 'Reason? E.g. if using a plugin such as `redmine_issue_view_columns` to display the sub-issues (of an issue) as table.'
     reorder_recalculate_context_menu: Recalculate order indexes
     reorder_header_supports_reorder: 'This column supports drag-to-reorder'
     reorder_drag_to_reorder: 'Drag to reorder'

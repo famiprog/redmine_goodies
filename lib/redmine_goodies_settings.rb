@@ -70,4 +70,8 @@ class RedmineGoodiesSettings
           .reject(&:blank?)
           .map(&:downcase)
     end
+
+    def self.reorder_force_fields
+        (get_setting(:reorder_force_fields) || '').to_s
+    end
 end

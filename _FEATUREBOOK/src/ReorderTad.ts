@@ -49,6 +49,18 @@ class ReorderTad {
     feature_settings() { }
 
     /**
+     * The "reorder" feature activates by looking at the header cell of the column: is the CF of type float? Is the column sorted by this column? 
+     * 
+     * For the fields "forced", these conditions are not checked, and the feature is forced.
+     * 
+     * Reason? E.g. if using a plugin such as `redmine_issue_view_columns` to display the sub-issues (of an issue) as table.
+     * 
+     * @img image.png
+     */
+    @Scenario()
+    feature_forceEnablementForFields() { }
+
+    /**
      * The "Quick edit field" logic already takes into account permissions. The user needs to have "edit issue" permission. And the custom field needs to be read/write (via workflow).
      * 
      * The same mechanism is reused. If no permissions => no icons (header cell, or table cells).

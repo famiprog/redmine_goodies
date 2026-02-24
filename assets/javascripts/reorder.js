@@ -20,6 +20,9 @@ if (typeof jQuery !== 'undefined') {
         var cfEditability = reorderSettings.cfEditability || {};
         // specifiedFields: array of { cf_id, caption } from server (DRY with quick edit field matching)
         var specifiedFields = reorderSettings.specifiedFields || [];
+        // forceFields: array of { cf_id, caption } for fields where both the float-type check
+        // and the sort-indicator check are bypassed (for tables from plugins that omit those signals).
+        var forceFields = reorderSettings.forceFields || [];
 
         // Returns the numeric issue id from a row's DOM id attribute (e.g. "issue-1234" -> "1234")
         function getIssueIdFromRow($row) {
@@ -86,6 +89,32 @@ if (typeof jQuery !== 'undefined') {
                 });
                 if (sortedColumn) { return false; }
             });
+
+            // Fallback for forced columns: they have the header marker but no sort icon.
+            // Treat the first forced-enabled column found as the effective "sorted" column
+            // (the user listed it in "Force enablement for fields", so it is the ordering column).
+            if (!sortedColumn && forceFields.length > 0) {
+                $('table').each(function() {
+                    var $tbl = $(this);
+                    $tbl.find('thead tr').first().find('th').each(function(ci) {
+                        var $th = $(this);
+                        if ($th.find('.sort-handle-header').length === 0) { return; }
+                        var classAttr = $th.attr('class') || '';
+                        var cfMatch = classAttr.match(/(cf_\d+)/i);
+                        var cfId = cfMatch ? cfMatch[1].toLowerCase() : '';
+                        for (var fi = 0; fi < forceFields.length; fi++) {
+                            var ff = forceFields[fi];
+                            var ffCfId = (ff.cf_id || '').toLowerCase();
+                            if (cfId && ffCfId && cfId === ffCfId) {
+                                var fieldName = $.trim($th.find('a').first().text()) || $.trim($th.text());
+                                sortedColumn = { fieldName: fieldName, colIndex: ci, $table: $tbl };
+                                return false;
+                            }
+                        }
+                    });
+                    if (sortedColumn) { return false; }
+                });
+            }
 
             // Collect selected issue rows in DOM (visual) order, restricted to the context-menu selection.
             var idSet = {};
@@ -167,14 +196,18 @@ if (typeof jQuery !== 'undefined') {
 
             // Columns that conceptually support reordering (float CF), regardless of current sort state
             var eligibleColumnIndexes = [];
-            // Columns that are both eligible, allowed by settings, and currently sorted by that CF; only these get drag handles in body cells
-            var targetColumnIndexes = [];
+            // Columns with active drag handles.
+            // Each entry: { colIndex, cfId, fieldName, isForced }
+            // Forced entries use CSS class to locate body cells because plugin tables (e.g.
+            // redmine_issue_view_columns) may have fewer TH elements than TD cells per row,
+            // making header colIndex and body colIndex diverge.
+            var targetColumns = [];
 
             $headerRow.find('th').each(function(colIndex) {
                 var $th = $(this);
                 var classAttr = $th.attr('class') || '';
-                // Must have cf_XX and float in class list to be eligible
-                if (!/cf_\d+/.test(classAttr) || classAttr.indexOf('float') === -1) { return; }
+                // Must have cf_XX class to be considered at all
+                if (!/cf_\d+/.test(classAttr)) { return; }
 
                 // Header text and cf_N from th (same identifiers as quick edit uses server-side)
                 var headerText = $.trim($th.find('a').first().text() || '');
@@ -182,26 +215,39 @@ if (typeof jQuery !== 'undefined') {
                 var cfMatch = classAttr.match(/(cf_\d+)/i);
                 var cfId = cfMatch ? cfMatch[1].toLowerCase() : '';
 
-                // Match using server-resolved list (DRY with quick edit: cf_id and caption)
-                function columnInSpecifiedList() {
-                    for (var i = 0; i < specifiedFields.length; i++) {
-                        var spec = specifiedFields[i];
-                        var specCfId = (spec.cf_id || '').toLowerCase();
-                        var specCaption = (spec.caption || '').toLowerCase();
-                        if (cfId && specCfId && cfId === specCfId) { return true; }
-                        if (headerKey && specCaption && headerKey === specCaption) { return true; }
-                    }
-                    return false;
+                // Check if this column is in the force list (bypasses float-type + sort checks).
+                var isForced = false;
+                for (var fi = 0; fi < forceFields.length; fi++) {
+                    var ff = forceFields[fi];
+                    var ffCfId   = (ff.cf_id   || '').toLowerCase();
+                    var ffCaption = (ff.caption || '').toLowerCase();
+                    if (cfId && ffCfId && cfId === ffCfId) { isForced = true; break; }
+                    if (headerKey && ffCaption && headerKey === ffCaption) { isForced = true; break; }
                 }
 
-                // Enforce Enable for / Specified fields rules
-                var allowed = true;
-                if (enableFor === 'whitelist') {
-                    allowed = columnInSpecifiedList();
-                } else if (enableFor === 'blacklist') {
-                    allowed = !columnInSpecifiedList();
+                if (!isForced) {
+                    // Normal path: must have cf_XX and float in class list
+                    if (classAttr.indexOf('float') === -1) { return; }
+
+                    // Enforce Enable for / Specified fields rules
+                    function columnInSpecifiedList() {
+                        for (var i = 0; i < specifiedFields.length; i++) {
+                            var spec = specifiedFields[i];
+                            var specCfId = (spec.cf_id || '').toLowerCase();
+                            var specCaption = (spec.caption || '').toLowerCase();
+                            if (cfId && specCfId && cfId === specCfId) { return true; }
+                            if (headerKey && specCaption && headerKey === specCaption) { return true; }
+                        }
+                        return false;
+                    }
+                    var allowed = true;
+                    if (enableFor === 'whitelist') {
+                        allowed = columnInSpecifiedList();
+                    } else if (enableFor === 'blacklist') {
+                        allowed = !columnInSpecifiedList();
+                    }
+                    if (!allowed) { return; }
                 }
-                if (!allowed) { return; }
 
                 // Reuse the same permission gate as Quick Edit (field_editable_by?):
                 // if the server computed editability for this CF and it is false, skip it.
@@ -219,20 +265,30 @@ if (typeof jQuery !== 'undefined') {
                     $th.prepend($headerHandle);
                 }
 
-                // Only columns that are currently sorted by this CF get active drag handles in the body cells.
-                if ($th.find('a[class*="icon-sorted-"]').length === 0) { return; }
-                targetColumnIndexes.push(colIndex);
+                // Forced columns always get drag handles; normal columns only when sorted by this CF.
+                if (!isForced && $th.find('a[class*="icon-sorted-"]').length === 0) { return; }
+
+                // Field name: prefer the link text (standard Redmine), fall back to full TH text
+                // (forced/plugin tables where TH has no anchor).
+                // Note: the sort-handle-header span was just prepended but carries no text,
+                // so $th.text() still returns only the CF caption.
+                var fieldName = $.trim($th.find('a').first().text()) || $.trim($th.text());
+                targetColumns.push({ colIndex: colIndex, cfId: cfId, fieldName: fieldName, isForced: isForced });
             });
 
-            if (targetColumnIndexes.length === 0) { return; }
+            if (targetColumns.length === 0) { return; }
 
-            // Add drag handle into the matching cell of every body row
+            // Add drag handle into the matching cell of every body row.
+            // Forced columns: locate cell by CSS class (cfId) — immune to header/body index misalignment.
+            // Normal columns: locate cell by column index.
             $table.find('tbody tr').each(function() {
                 var $row = $(this);
                 var $cells = $row.children('th,td');
 
-                targetColumnIndexes.forEach(function(colIndex) {
-                    var $cell = $cells.eq(colIndex);
+                targetColumns.forEach(function(col) {
+                    var $cell = col.isForced
+                        ? $row.find('td.' + col.cfId + ', th.' + col.cfId).first()
+                        : $cells.eq(col.colIndex);
                     if ($cell.length === 0 || $cell.find('.sort-handle').length > 0) { return; }
 
                     var $handle = $('<span>', {
@@ -253,13 +309,23 @@ if (typeof jQuery !== 'undefined') {
                 update: function(event, ui) {
                     var $row = ui.item;
 
-                    // Determine which CF column's handle was dragged
+                    // Determine which CF column's handle was dragged by matching the handle's
+                    // parent cell to a targetColumns entry (by class for forced, by index for normal).
                     var $handleCell = $row.find('.sort-handle').first().closest('td,th');
-                    var valueCol = $row.children('th,td').index($handleCell);
-                    if (valueCol < 0) { return; }
+                    if ($handleCell.length === 0) { return; }
 
-                    // Field name from header link text
-                    var fieldName = $.trim($headerRow.find('th').eq(valueCol).find('a').first().text());
+                    var matchedCol = null;
+                    for (var ci = 0; ci < targetColumns.length; ci++) {
+                        var col = targetColumns[ci];
+                        if (col.isForced) {
+                            if ($handleCell.hasClass(col.cfId)) { matchedCol = col; break; }
+                        } else {
+                            if ($row.children('th,td').index($handleCell) === col.colIndex) { matchedCol = col; break; }
+                        }
+                    }
+                    if (!matchedCol || !matchedCol.fieldName) { return; }
+
+                    var fieldName = matchedCol.fieldName;
 
                     // Current issue id from row DOM id (e.g. "issue-1234")
                     var curId = getIssueIdFromRow($row);
@@ -271,9 +337,13 @@ if (typeof jQuery !== 'undefined') {
                     var hasPrev = $prev.length > 0;
                     var hasNext = $next.length > 0;
 
-                    // Parse float values from the CF column, tolerating formatting noise
+                    // Parse float values from the CF column, tolerating formatting noise.
+                    // Forced columns: find cell by class. Normal columns: find cell by column index.
                     function parseVal($r) {
-                        return parseFloat(getCellText($r, valueCol).replace(/[^\d,.\-]/g, '').replace(',', '.'));
+                        var text = matchedCol.isForced
+                            ? $.trim($r.find('td.' + matchedCol.cfId + ', th.' + matchedCol.cfId).first().text())
+                            : getCellText($r, matchedCol.colIndex);
+                        return parseFloat(text.replace(/[^\d,.\-]/g, '').replace(',', '.'));
                     }
                     var prevVal = hasPrev ? parseVal($prev) : NaN;
                     var nextVal = hasNext ? parseVal($next) : NaN;

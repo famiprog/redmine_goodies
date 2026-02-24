@@ -6,6 +6,7 @@ Go to [Featurebook > Index](FEATUREBOOK.md)
 * [`@Scenario` `_quickInstructions()`](#_quickInstructions)
 * [`@Scenario` `feature_iconInHeaderCell()`](#feature_iconInHeaderCell)
 * [`@Scenario` `feature_settings()`](#feature_settings)
+* [`@Scenario` `feature_forceEnablementForFields()`](#feature_forceEnablementForFields)
 * [`@Scenario` `feature_permissions()`](#feature_permissions)
 * [`@Scenario` `feature_recalculateOrderIndexes1()`](#feature_recalculateOrderIndexes1)
 * [`@Scenario` `feature_recalculateOrderIndexes2()`](#feature_recalculateOrderIndexes2)
@@ -75,6 +76,24 @@ If b/ or c/ selected, then the following input `Specified fields` is enabled.
 Explanation: Similar to "Fields to show in quick edit menu". But only custom fields of type float.
 
 ![image.png](../featurebook-img/ReorderTad/feature_settings/image.png)
+</td></tr>
+</table>
+
+<a id="feature_forceEnablementForFields"></a>
+<table>
+<tr><td> 
+
+`@Scenario` `feature_forceEnablementForFields()`<br />
+</td></tr>
+<tr><td>
+
+The "reorder" feature activates by looking at the header cell of the column: is the CF of type float? Is the column sorted by this column? 
+
+For the fields "forced", these conditions are not checked, and the feature is forced.
+
+Reason? E.g. if using a plugin such as `redmine_issue_view_columns` to display the sub-issues (of an issue) as table.
+
+![image.png](../featurebook-img/ReorderTad/feature_forceEnablementForFields/image.png)
 </td></tr>
 </table>
 

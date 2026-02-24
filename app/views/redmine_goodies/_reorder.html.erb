@@ -20,6 +20,7 @@
         enableIssueReorder: <%= RedmineGoodiesSettings.enable_issue_reorder? ? 'true' : 'false' %>,
         enableFor: '<%= RedmineGoodiesSettings.reorder_enable_for %>',
         specifiedFields: <%= raw RedmineGoodiesQuickEditHelper.reorder_specified_float_cfs(Setting.plugin_redmine_goodies[:reorder_specified_fields]).to_json %>,
+        forceFields: <%= raw RedmineGoodiesQuickEditHelper.reorder_force_field_ids(Setting.plugin_redmine_goodies[:reorder_force_fields]).to_json %>,
         cfEditability: <%= raw reorder_cf_editability.to_json %>
       };
       window.RedmineGoodiesReorderI18n = {

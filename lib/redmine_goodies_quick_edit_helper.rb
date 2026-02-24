@@ -8,6 +8,23 @@ module RedmineGoodiesQuickEditHelper
     raw.to_s.split(/\s*[,;]\s*/).map(&:strip).reject(&:blank?)
   end
 
+  # Returns an array of { "cf_id" => "cf_N", "caption" => "..." } for any CFs (any type) matching
+  # the given field list. Used by the reorder "Force enablement" setting: these fields bypass both
+  # the float-type check and the sort-indicator check (for third-party plugin tables that omit those signals).
+  def self.reorder_force_field_ids(raw_string)
+    entries = parse_fields_list(raw_string)
+    return [] if entries.empty?
+
+    list = get_list_of_fields(entries)
+    list.map do |c|
+      if c.is_a?(QueryCustomFieldColumn)
+        { 'cf_id' => "cf_#{c.custom_field.id}", 'caption' => c.caption.to_s }
+      else
+        { 'cf_id' => '', 'caption' => c.caption.to_s }
+      end
+    end
+  end
+
   # Returns an array of { "cf_id" => "cf_N", "caption" => "..." } for float CFs that match the given field list.
   # Reuses get_list_of_fields for matching (DRY with quick edit). Used by reorder feature.
   def self.reorder_specified_float_cfs(raw_string)
