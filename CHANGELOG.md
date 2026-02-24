@@ -1,5 +1,9 @@
 ## Unreleased
 
+## v2.1.0
+
+* [Reorder issues](./_FEATUREBOOK/featurebook/ReorderTad.md)
+
 ## v2.0.0
 
 * [Quick edit field](./_FEATUREBOOK/featurebook/QuickEditFieldTad.md), migrated from an internal plugin project. W/ some improvements:

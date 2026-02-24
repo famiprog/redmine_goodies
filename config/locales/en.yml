@@ -37,3 +37,22 @@ en:
     assist_subtask_settings_fields_note_3: The names can usually be found when customizing columns per list of issues.
     assist_subtask_settings_fields_note_4: Use only the english names.
     assist_subtask_settings_fields_note_5: 'Custom fields can also be referenced by ID using the syntax cf_N (e.g. cf_5). The ID appears in the URL on the custom field administration page.'
+
+    settings_reorder_title: Issue reorder
+    settings_enable_issue_reorder: Enable issue reorder
+    settings_enable_issue_reorder_text: Works on custom fields of type float, when such a field is used for sorting.
+    settings_reorder_enable_for: Enable for
+    settings_reorder_enable_for_any: Any custom field of type float
+    settings_reorder_enable_for_whitelist: 'White list: only the specified fields'
+    settings_reorder_enable_for_blacklist: 'Black list: all except the specified fields'
+    settings_reorder_specified_fields: Specified fields
+    settings_reorder_specified_fields_text: 'Similar to "%{quick_edit_fields_setting}", but only for float custom fields.'
+    reorder_recalculate_context_menu: Recalculate order indexes
+    reorder_header_supports_reorder: 'This column supports drag-to-reorder'
+    reorder_drag_to_reorder: 'Drag to reorder'
+    reorder_recalculate_modal_title: 'Recalculate order indexes'
+    reorder_recalculate_modal_before: 'For %{count} issues we will update'
+    reorder_recalculate_modal_after: ' = 1 ... %{count}'
+    reorder_recalculate_modal_intro: 'The recalculation works if:'
+    reorder_recalculate_modal_cond1: 'The table is sorted by a "reorderable" column. I.e. you see the reorder arrow on the header cell & all column cells.'
+    reorder_recalculate_modal_cond2: 'You select a couple of issues in the table.'

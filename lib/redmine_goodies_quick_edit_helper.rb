@@ -1,6 +1,24 @@
 module RedmineGoodiesQuickEditHelper
   CF_ID_PATTERN = /\Acf_(\d+)\z/
 
+  # Parses a comma/semicolon-separated field list (same format as quick edit and reorder settings).
+  # Splits only on comma/semicolon so field names with spaces (e.g. "🔥Pr dev") are preserved.
+  def self.parse_fields_list(raw)
+    return [] if raw.blank?
+    raw.to_s.split(/\s*[,;]\s*/).map(&:strip).reject(&:blank?)
+  end
+
+  # Returns an array of { "cf_id" => "cf_N", "caption" => "..." } for float CFs that match the given field list.
+  # Reuses get_list_of_fields for matching (DRY with quick edit). Used by reorder feature.
+  def self.reorder_specified_float_cfs(raw_string)
+    entries = parse_fields_list(raw_string)
+    return [] if entries.empty?
+
+    list = get_list_of_fields(entries)
+    list.select { |c| c.is_a?(QueryCustomFieldColumn) && c.custom_field.field_format == 'float' }
+       .map { |c| { 'cf_id' => "cf_#{c.custom_field.id}", 'caption' => c.caption.to_s } }
+  end
+
   def self.get_list_of_fields(fields_to_copy)
     list_of_fields = nil
     I18n.with_locale(:en) do

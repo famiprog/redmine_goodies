@@ -1,4 +1,5 @@
 class QualityOfLifeTad {
+    
     /**
      * Sometimes, with the context menu open, when opening a sub-menu: the "child" sub menu is too high and exits the screen. Hence we have some JS code that works around this issue by repositioning the popup.
      * 

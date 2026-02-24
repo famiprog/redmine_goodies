@@ -51,4 +51,23 @@ class RedmineGoodiesSettings
     def self.add_parent_to_quick_edit?
         get_setting(:add_parent_to_quick_edit) == '1'
     end
+
+    def self.enable_issue_reorder?
+        (get_setting(:enable_issue_reorder).presence || '1') == '1'
+    end
+
+    def self.reorder_enable_for
+        (get_setting(:reorder_enable_for) || 'any').to_s
+    end
+
+    # Returns an array of normalized field identifiers (downcased, stripped).
+    # Accepts names or cf_N style ids, separated by commas/semicolons/newlines.
+    def self.reorder_specified_fields
+        raw = (get_setting(:reorder_specified_fields) || '').to_s
+        raw
+          .split(/[\s,;]+/)
+          .map(&:strip)
+          .reject(&:blank?)
+          .map(&:downcase)
+    end
 end
