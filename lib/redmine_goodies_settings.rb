@@ -52,6 +52,10 @@ class RedmineGoodiesSettings
         get_setting(:add_parent_to_quick_edit) == '1'
     end
 
+    def self.organize_custom_queries?
+        (get_setting(:organize_custom_queries).presence || '1') == '1'
+    end
+
     def self.enable_issue_reorder?
         (get_setting(:enable_issue_reorder).presence || '1') == '1'
     end

@@ -78,6 +78,14 @@
 </script>
 
 <hr/>
+<h3><%= l(:organize_cq_link_text) %></h3>
+<p>
+    <label for="settings_organize_custom_queries"><%= l(:settings_organize_custom_queries) %></label>
+    <%= hidden_field_tag 'settings[organize_custom_queries]', 0, :id => nil %>
+    <%= check_box_tag 'settings[organize_custom_queries]', 1, RedmineGoodiesSettings.organize_custom_queries? %>
+</p>
+
+<hr/>
 <h3><%= l(:settings_quality_of_life) %></h3>
 <p>
     <label for="settings_reposition_context_submenu"><%= l(:settings_reposition_context_submenu) %></label>

@@ -3,6 +3,7 @@
 ## v2.1.0
 
 * [Reorder issues](./_FEATUREBOOK/featurebook/ReorderTad.md)
+* [Organize custom queries](./_FEATUREBOOK/featurebook/OrganizeCustomQueriesTad.md)
 
 ## v2.0.0
 

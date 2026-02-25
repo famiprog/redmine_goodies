@@ -60,3 +60,10 @@ en:
     reorder_recalculate_modal_intro: 'The recalculation works if:'
     reorder_recalculate_modal_cond1: 'The table is sorted by a "reorderable" column. I.e. you see the reorder arrow on the header cell & all column cells.'
     reorder_recalculate_modal_cond2: 'You select a couple of issues in the table.'
+
+    settings_organize_custom_queries: Enable
+    organize_cq_link_text: Organize custom queries
+    organize_cq_suffix_this_project: '(this project)'
+    organize_cq_suffix_all_projects: '(all projects)'
+    organize_cq_badge: '(all proj)'
+    organize_cq_icon_hint: 'opens the custom query in "all projects" mode'

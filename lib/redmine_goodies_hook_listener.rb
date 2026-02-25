@@ -4,6 +4,7 @@ class RedmineGoodiesHookListener < Redmine::Hook::ViewListener
 	# the first one.
 	render_on :view_layouts_base_html_head,
 	          {:partial => "redmine_goodies/reorder"},
-	          {:partial => "redmine_goodies/global_macros"}
+	          {:partial => "redmine_goodies/global_macros"},
+	          {:partial => "redmine_goodies/organize_custom_queries"}
 	render_on :view_issues_context_menu_start, :partial => "redmine_goodies/context_menu"
 end

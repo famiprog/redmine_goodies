@@ -6,7 +6,8 @@ Redmine::Plugin.register :redmine_goodies do
     url 'https://github.com/famiprog/redmine_goodies'
     author_url 'https://github.com/famiprog'
 
-    settings :default => {'empty' => true, 
+    settings :default => {'empty' => true,
+                            :organize_custom_queries => '1',
                             :remove_lazy_loading => '1',
                             :collapsible_images => '0',
                             :reposition_context_submenu => '1',
