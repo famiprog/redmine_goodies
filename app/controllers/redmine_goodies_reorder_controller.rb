@@ -1,6 +1,6 @@
 class RedmineGoodiesReorderController < ApplicationController
 
-  before_action :find_issues, :only => [:recalculate_field]
+  before_action :find_issues, :only => [:recalculate_field, :activate_reorder]
   before_action :find_field_info, :only => [:recalculate_field]
   before_action :check_field_permission, :only => [:recalculate_field]
 
@@ -30,6 +30,27 @@ class RedmineGoodiesReorderController < ApplicationController
     flash[:error] = l(:quick_edit_fail_update, error: "#{e}")
   ensure
     redirect_to_referer_or { render plain: 'Recalculate field saved.' }
+  end
+
+  # Returns the reorder config (cfEditability, specifiedFields, forceFields) for the given issues.
+  # Called on-demand when the user clicks "Reorder issues" in the context menu.
+  def activate_reorder
+    editable = {}
+    rw_cache = {}
+    I18n.with_locale(:en) do
+      IssueQuery.new.available_columns.each do |col|
+        next unless col.is_a?(QueryCustomFieldColumn) && col.custom_field.field_format == 'float'
+        key = "cf_#{col.custom_field.id}"
+        editable[key] = RedmineGoodiesQuickEditHelper.field_editable_by?(col, @issues, User.current, read_only_cache: rw_cache)
+      end
+    end
+
+    settings = Setting.plugin_redmine_goodies
+    render json: {
+      cfEditability:  editable,
+      specifiedFields: RedmineGoodiesQuickEditHelper.reorder_specified_float_cfs(settings[:reorder_specified_fields]),
+      forceFields:    RedmineGoodiesQuickEditHelper.reorder_force_field_ids(settings[:reorder_force_fields])
+    }
   end
 
   private

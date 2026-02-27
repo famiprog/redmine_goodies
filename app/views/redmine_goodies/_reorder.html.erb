@@ -1,27 +1,10 @@
 <% content_for :header_tags do %>
-    <%
-      # Reuse the same permission logic as Quick Edit (field_editable_by?).
-      # Build a map of { "cf_N" => true/false } for every float CF so JS can
-      # suppress both the header marker and drag handles for non-editable columns.
-      # @issues is available here (set by the controller before the layout renders).
-      reorder_cf_editability = {}
-      if @issues.present?
-        I18n.with_locale(:en) do
-          IssueQuery.new.available_columns.each do |col|
-            next unless col.is_a?(QueryCustomFieldColumn) && col.custom_field.field_format == 'float'
-            key = "cf_#{col.custom_field.id}"
-            reorder_cf_editability[key] = RedmineGoodiesQuickEditHelper.field_editable_by?(col, @issues, User.current)
-          end
-        end
-      end
-    %>
     <script>
       window.RedmineGoodiesReorderSettings = {
         enableIssueReorder: <%= RedmineGoodiesSettings.enable_issue_reorder? ? 'true' : 'false' %>,
         enableFor: '<%= RedmineGoodiesSettings.reorder_enable_for %>',
-        specifiedFields: <%= raw RedmineGoodiesQuickEditHelper.reorder_specified_float_cfs(Setting.plugin_redmine_goodies[:reorder_specified_fields]).to_json %>,
-        forceFields: <%= raw RedmineGoodiesQuickEditHelper.reorder_force_field_ids(Setting.plugin_redmine_goodies[:reorder_force_fields]).to_json %>,
-        cfEditability: <%= raw reorder_cf_editability.to_json %>
+        activateUrl: '<%= redmine_goodies_activate_reorder_path %>'
+        // cfEditability, specifiedFields, forceFields are fetched on-demand via activate_reorder
       };
       window.RedmineGoodiesReorderI18n = {
         headerSupportsReorder: <%= raw l(:reorder_header_supports_reorder).to_json %>,

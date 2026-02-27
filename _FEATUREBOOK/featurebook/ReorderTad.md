@@ -40,6 +40,12 @@ On drop: propose a new value for that CF:
 * The proposed value can be manually corrected. In some cases it should be.
 
 ![popup-no-neighbors.png](../featurebook-img/ReorderTad/_quickInstructions/popup-no-neighbors.png)
+
+BTW: to make the icons appear press `CTRL + R` or use the context menu:
+
+![menu-action.png](../featurebook-img/ReorderTad/_quickInstructions/menu-action.png)
+
+On activation, there is a bit of logic that iterates all issues to see if the fields are read only or not. We didn't want to have perf impact and execute this on each page render.
 </td></tr>
 </table>
 

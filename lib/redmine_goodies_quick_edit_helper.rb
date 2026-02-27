@@ -80,7 +80,11 @@ module RedmineGoodiesQuickEditHelper
   #   1. edit_issues permission on every project involved
   #   2. For custom fields: the global editable flag and role-based CF visibility
   #   3. Workflow field permissions (read-only rules set per tracker/status/role)
-  def self.field_editable_by?(field_info, issues, user)
+  # read_only_cache: optional flat hash that the caller can share across multiple calls
+  # to avoid recomputing read_only_attribute_names for issues with the same
+  # (project, tracker, status) combination.
+  # Key format: "project_id_tracker_id_status_id"  (single-level, no nesting).
+  def self.field_editable_by?(field_info, issues, user, read_only_cache: nil)
     return false if field_info.nil? || issues.blank?
 
     projects = issues.map(&:project).uniq
@@ -96,8 +100,20 @@ module RedmineGoodiesQuickEditHelper
       attr_name = field_info.name.to_s
     end
 
-    # Workflow field permissions: the field must not be read-only on any of the issues
-    issues.none? { |issue| issue.read_only_attribute_names(user).include?(attr_name) }
+    # Workflow field permissions: the field must not be read-only on any of the issues.
+    # read_only_attribute_names(user) queries WorkflowPermission by (tracker, status, roles);
+    # the result is identical for all issues that share the same project+tracker+status,
+    # so we memoize it in the caller-supplied cache when one is provided.
+    issues.none? do |issue|
+      read_only =
+        if read_only_cache
+          cache_key = "#{issue.project_id}_#{issue.tracker_id}_#{issue.status_id}"
+          read_only_cache[cache_key] ||= issue.read_only_attribute_names(user)
+        else
+          issue.read_only_attribute_names(user)
+        end
+      read_only.include?(attr_name)
+    end
   end
 end
 

@@ -38,8 +38,8 @@ en:
     assist_subtask_settings_fields_note_4: Use only the english names.
     assist_subtask_settings_fields_note_5: 'Custom fields can also be referenced by ID using the syntax cf_N (e.g. cf_5). The ID appears in the URL on the custom field administration page.'
 
-    settings_reorder_title: Issue reorder
-    settings_enable_issue_reorder: Enable issue reorder
+    settings_reorder_title: Reorder issues
+    settings_enable_issue_reorder: Enable
     settings_enable_issue_reorder_text: Works on custom fields of type float, when such a field is used for sorting.
     settings_reorder_enable_for: Enable for
     settings_reorder_enable_for_any: Any custom field of type float

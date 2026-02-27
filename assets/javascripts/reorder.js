@@ -13,16 +13,11 @@ if (typeof jQuery !== 'undefined') {
         }
 
         var enableFor = (reorderSettings.enableFor || 'any').toLowerCase();
-        // cfEditability: server-computed map of { "cf_N": true/false } using the same
-        // field_editable_by? check as Quick Edit (edit_issues permission + workflow).
-        // An absent key means we have no server data for that CF (e.g. non-issue pages)
-        // and we default to allowing the icon.
-        var cfEditability = reorderSettings.cfEditability || {};
-        // specifiedFields: array of { cf_id, caption } from server (DRY with quick edit field matching)
-        var specifiedFields = reorderSettings.specifiedFields || [];
-        // forceFields: array of { cf_id, caption } for fields where both the float-type check
-        // and the sort-indicator check are bypassed (for tables from plugins that omit those signals).
-        var forceFields = reorderSettings.forceFields || [];
+        // Populated on-demand when the user clicks "Reorder issues" in the context menu.
+        // The server computes these for the selected issues only at that point.
+        var cfEditability = {};
+        var specifiedFields = [];
+        var forceFields = [];
 
         // Returns the numeric issue id from a row's DOM id attribute (e.g. "issue-1234" -> "1234")
         function getIssueIdFromRow($row) {
@@ -59,6 +54,36 @@ if (typeof jQuery !== 'undefined') {
             });
         }
 
+        // ---- Activate reorder on demand ----
+        // Fetches cfEditability/specifiedFields/forceFields for all visible issue rows, then
+        // wires up drag handles. Called from the context menu item and the Ctrl+R shortcut.
+        function activateReorder() {
+            var ids = $('table tbody tr[id^="issue-"]').map(function() {
+                return ($(this).attr('id') || '').replace(/\D/g, '');
+            }).get().filter(Boolean).join(',');
+            $.ajax({
+                url: reorderSettings.activateUrl,
+                type: 'GET',
+                data: { ids: ids },
+                dataType: 'json',
+                success: function(data) {
+                    setupReorder(data.cfEditability || {}, data.specifiedFields || [], data.forceFields || []);
+                }
+            });
+        }
+
+        $(document).on('click', '#redmine-goodies-reorder-activate-link', function(e) {
+            e.preventDefault();
+            activateReorder();
+        });
+
+        $(document).on('keydown', function(e) {
+            if (!e.ctrlKey || e.key !== 'r' || !reorderSettings.activateUrl) { return; }
+            e.preventDefault();
+            activateReorder();
+        });
+        // ---- end Activate reorder ----
+
         // ---- Recalculate order indexes ----
         // Registered once outside the table loop so it fires even when no table is currently
         // sorted by a reorderable column (scenario 2: show the error popup).
@@ -75,12 +100,20 @@ if (typeof jQuery !== 'undefined') {
             var sortedColumn = null;
             $('table').each(function() {
                 var $tbl = $(this);
+                // Primary: Redmine puts "sort-by-cf-N" on the table element for the sorted CF.
+                var tblSortMatch = ($tbl.attr('class') || '').match(/\bsort-by-cf-(\d+)\b/);
+                var tblSortedCfId = tblSortMatch ? 'cf_' + tblSortMatch[1] : '';
                 $tbl.find('thead tr').first().find('th').each(function(ci) {
                     var $th = $(this);
-                    if ($th.find('.sort-handle-header').length > 0 &&
-                        $th.find('a[class*="icon-sorted-"]').length > 0) {
+                    if ($th.find('.sort-handle-header').length === 0) { return; }
+                    var cfMatch = ($th.attr('class') || '').match(/(cf_\d+)/i);
+                    var cfId = cfMatch ? cfMatch[1].toLowerCase() : '';
+                    var isSorted = tblSortedCfId
+                        ? (cfId && cfId === tblSortedCfId)
+                        : $th.find('a[class*="icon-sorted-"]').length > 0;
+                    if (isSorted) {
                         sortedColumn = {
-                            fieldName: $.trim($th.find('a').first().text()),
+                            fieldName: $.trim($th.find('a').first().text()) || $.trim($th.text()),
                             colIndex: ci,
                             $table: $tbl
                         };
@@ -189,7 +222,12 @@ if (typeof jQuery !== 'undefined') {
         });
         // ---- end Recalculate order indexes ----
 
-        $('table').each(function() {
+        function setupReorder(newCfEditability, newSpecifiedFields, newForceFields) {
+            cfEditability  = newCfEditability;
+            specifiedFields = newSpecifiedFields;
+            forceFields    = newForceFields;
+
+            $('table').each(function() {
             var $table = $(this);
             var $headerRow = $table.find('thead tr').first();
             if ($headerRow.length === 0) { return; }
@@ -202,6 +240,12 @@ if (typeof jQuery !== 'undefined') {
             // redmine_issue_view_columns) may have fewer TH elements than TD cells per row,
             // making header colIndex and body colIndex diverge.
             var targetColumns = [];
+
+            // Redmine marks the sorted CF on the TABLE element itself with "sort-by-cf-N sort-asc/desc".
+            // This is the most reliable indicator of which column is sorted; the TH anchor's
+            // icon-sorted-* class can be absent or mis-timed when setup runs on-demand via AJAX.
+            var tableSortMatch = ($table.attr('class') || '').match(/\bsort-by-cf-(\d+)\b/);
+            var tableSortedCfId = tableSortMatch ? 'cf_' + tableSortMatch[1] : '';
 
             $headerRow.find('th').each(function(colIndex) {
                 var $th = $(this);
@@ -265,8 +309,19 @@ if (typeof jQuery !== 'undefined') {
                     $th.prepend($headerHandle);
                 }
 
-                // Forced columns always get drag handles; normal columns only when sorted by this CF.
-                if (!isForced && $th.find('a[class*="icon-sorted-"]').length === 0) { return; }
+                // Determine whether this column is the one currently sorted.
+                // Primary: Redmine standard tables have a "sort-by-cf-N" class on the table element.
+                // Fallback: check the anchor's icon-sorted-* class (for non-standard/plugin tables).
+                var isSortedByThisColumn = tableSortedCfId
+                    ? cfId === tableSortedCfId
+                    : $th.find('a[class*="icon-sorted-"]').length > 0;
+
+                // Force fields bypass the sort check ONLY for plugin tables that lack a sort-by-cf-N
+                // class (where sort state cannot be detected reliably).  In standard Redmine tables
+                // the sort-by-cf-N class is always present, so every column — including forced ones —
+                // must be the currently-sorted column to receive body drag handles.
+                var passesSortGate = isSortedByThisColumn || (isForced && !tableSortedCfId);
+                if (!passesSortGate) { return; }
 
                 // Field name: prefer the link text (standard Redmine), fall back to full TH text
                 // (forced/plugin tables where TH has no anchor).
@@ -304,6 +359,9 @@ if (typeof jQuery !== 'undefined') {
             // Enable drag-and-drop on the tbody
             var $tbody = $table.find('tbody');
             if ($tbody.length === 0 || !$.fn.positionedItems) { return; }
+
+            if ($tbody.data('reorder-active')) { return; }
+            $tbody.data('reorder-active', true);
 
             $tbody.positionedItems({
                 update: function(event, ui) {
@@ -408,6 +466,7 @@ if (typeof jQuery !== 'undefined') {
                     });
                 }
             });
-        });
+            }); // end $('table').each
+        } // end setupReorder
     });
 }

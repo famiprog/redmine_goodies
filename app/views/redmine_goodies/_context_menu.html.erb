@@ -47,8 +47,15 @@
     </ul>
   </li>
   <li class="folder">
-    <a href="#" class="submenu icon icon-edit">Redmine Goodies</a>
+    <a href="#" class="submenu icon icon-edit"><%= Redmine::Plugin.find(:redmine_goodies).name %></a>
     <ul>
+      <li>
+      <%= link_to '#', 
+            id: 'redmine-goodies-reorder-activate-link', 
+            class: 'icon icon-sort-handle' do %>
+        <%= l(:settings_reorder_title) %><br />(CTRL + R)
+      <% end %>
+      </li>
       <li>
         <%= link_to l(:reorder_recalculate_context_menu), '#',
               id: 'redmine-goodies-recalculate-link',
