@@ -13,6 +13,14 @@ class RedmineGoodiesQuickEditController < ApplicationController
 
     @field_value = get_issue_field_value(@issues.first, @field_info)
 
+    # Optional generic params that any caller can pass to customise the modal:
+    #   modal_extra_html     – HTML displayed above the input (sanitized by the view)
+    #   modal_proposed_value – pre-fills the input instead of the current field value
+    #   modal_cancel_reload  – if '1', Cancel reloads the page instead of just closing the modal
+    @modal_extra_html = params[:modal_extra_html].presence
+    @modal_cancel_reload = params[:modal_cancel_reload] == '1'
+    @field_value = params[:modal_proposed_value] if params[:modal_proposed_value].present?
+
     if @field_info.name == :parent
       # we need to send only the id in case we want to edit the parent field
       @field_value = @field_value.id unless @field_value.nil?

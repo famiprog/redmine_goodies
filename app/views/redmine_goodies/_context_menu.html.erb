@@ -1,11 +1,10 @@
 <%
-  # Use redmine_goodies' own settings and quick-edit controller.
   fields_to_edit = nil
 
   fields_settings = RedmineGoodiesSettings.fields_to_quick_edit
 
   if fields_settings.present?
-    fields_to_edit = fields_settings.split(/\s*,\s*/).collect { |field| field.strip }
+    fields_to_edit = RedmineGoodiesQuickEditHelper.parse_fields_list(fields_settings)
   end
 
   if RedmineGoodiesSettings.add_parent_to_quick_edit?
@@ -47,5 +46,27 @@
       <% end %>
     </ul>
   </li>
+  <li class="folder">
+    <a href="#" class="submenu icon icon-edit"><%= Redmine::Plugin.find(:redmine_goodies).name %></a>
+    <ul>
+      <li>
+      <%= link_to '#', 
+            id: 'redmine-goodies-reorder-activate-link', 
+            class: 'icon icon-sort-handle' do %>
+        <%= l(:settings_reorder_title) %><br />(CTRL + R)
+      <% end %>
+      </li>
+      <li>
+        <%= link_to l(:reorder_recalculate_context_menu), '#',
+              id: 'redmine-goodies-recalculate-link',
+              class: 'icon icon-sort-handle',
+              data: {
+                issue_ids: @issue_ids.join(','),
+                recalculate_url: redmine_goodies_recalculate_field_path
+              } %>
+      </li>
+    </ul>
+  </li>
+  <li class="menu-separator" style="border-top: 1px solid #ccc; margin: 5px 0; padding: 0; height: 0; list-style: none; line-height: 0;"></li>
 <% end %>
 

@@ -1,0 +1,24 @@
+<% content_for :header_tags do %>
+    <script>
+      window.RedmineGoodiesReorderSettings = {
+        enableIssueReorder: <%= RedmineGoodiesSettings.enable_issue_reorder? ? 'true' : 'false' %>,
+        enableFor: '<%= RedmineGoodiesSettings.reorder_enable_for %>',
+        activateUrl: '<%= redmine_goodies_activate_reorder_path %>'
+        // cfEditability, specifiedFields, forceFields are fetched on-demand via activate_reorder
+      };
+      window.RedmineGoodiesReorderI18n = {
+        headerSupportsReorder: <%= raw l(:reorder_header_supports_reorder).to_json %>,
+        dragToReorder: <%= raw l(:reorder_drag_to_reorder).to_json %>,
+        recalcTitle: <%= raw l(:reorder_recalculate_modal_title).to_json %>,
+        recalcBefore: <%= raw l(:reorder_recalculate_modal_before).to_json %>,
+        recalcAfter: <%= raw l(:reorder_recalculate_modal_after).to_json %>,
+        recalcIntro: <%= raw l(:reorder_recalculate_modal_intro).to_json %>,
+        recalcCond1: <%= raw l(:reorder_recalculate_modal_cond1).to_json %>,
+        recalcCond2: <%= raw l(:reorder_recalculate_modal_cond2).to_json %>,
+        ok: <%= raw l(:quick_edit_ok).to_json %>,
+        cancel: <%= raw l(:button_cancel).to_json %>
+      };
+    </script>
+    <%= javascript_include_tag 'utils', :plugin => 'redmine_goodies' %>
+    <%= javascript_include_tag 'reorder', :plugin => 'redmine_goodies' %>
+<% end %>

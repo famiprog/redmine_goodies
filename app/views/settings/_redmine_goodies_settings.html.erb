@@ -32,6 +32,60 @@
 </p>
 
 <hr/>
+<h3><%= l(:settings_reorder_title) %></h3>
+<p>
+    <label for="settings_enable_issue_reorder"><%= l(:settings_enable_issue_reorder) %></label>
+    <%= hidden_field_tag 'settings[enable_issue_reorder]', 0, :id => nil %>
+    <%= check_box_tag 'settings[enable_issue_reorder]', 1, (Setting.plugin_redmine_goodies[:enable_issue_reorder].presence || '1') == '1' %>
+    <em class="info"><%= l(:settings_enable_issue_reorder_text) %></em>
+</p>
+
+<p>
+    <label for="settings_reorder_enable_for"><%= l(:settings_reorder_enable_for) %></label>
+    <%= select_tag 'settings[reorder_enable_for]',
+        options_for_select([
+            [l(:settings_reorder_enable_for_any), 'any'],
+            [l(:settings_reorder_enable_for_whitelist), 'whitelist'],
+            [l(:settings_reorder_enable_for_blacklist), 'blacklist']
+        ], Setting.plugin_redmine_goodies[:reorder_enable_for] || 'any') %>
+</p>
+
+<p>
+    <label for="settings_reorder_specified_fields"><%= l(:settings_reorder_specified_fields) %></label>
+    <%= text_area_tag "settings[reorder_specified_fields]", Setting.plugin_redmine_goodies[:reorder_specified_fields], :rows=> 3, :id => 'settings_reorder_specified_fields' %>
+    <em class="info"><%= l(:settings_reorder_specified_fields_text, :quick_edit_fields_setting => l(:quick_edit_fields_setting)) %></em>
+</p>
+
+<p>
+    <label for="settings_reorder_force_fields"><%= l(:settings_reorder_force_fields) %></label>
+    <%= text_area_tag "settings[reorder_force_fields]", Setting.plugin_redmine_goodies[:reorder_force_fields], :rows=> 3, :id => 'settings_reorder_force_fields' %>
+    <em class="info"><%= l(:settings_reorder_force_fields_text1) %></em>
+    <em class="info"><%= l(:settings_reorder_force_fields_text2) %></em>
+    <em class="info"><%= l(:settings_reorder_force_fields_text3) %></em>
+</p>
+<script>
+(function() {
+  var sel = document.getElementById('settings_reorder_enable_for');
+  var txt = document.getElementById('settings_reorder_specified_fields');
+  function toggle() {
+    txt.disabled = (sel && sel.value === 'any');
+  }
+  if (sel && txt) {
+    toggle();
+    sel.addEventListener('change', toggle);
+  }
+})();
+</script>
+
+<hr/>
+<h3><%= l(:organize_cq_link_text) %></h3>
+<p>
+    <label for="settings_organize_custom_queries"><%= l(:settings_organize_custom_queries) %></label>
+    <%= hidden_field_tag 'settings[organize_custom_queries]', 0, :id => nil %>
+    <%= check_box_tag 'settings[organize_custom_queries]', 1, RedmineGoodiesSettings.organize_custom_queries? %>
+</p>
+
+<hr/>
 <h3><%= l(:settings_quality_of_life) %></h3>
 <p>
     <label for="settings_reposition_context_submenu"><%= l(:settings_reposition_context_submenu) %></label>

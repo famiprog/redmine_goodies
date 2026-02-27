@@ -1,4 +1,5 @@
 class QualityOfLifeTad {
+    
     /**
      * Sometimes, with the context menu open, when opening a sub-menu: the "child" sub menu is too high and exits the screen. Hence we have some JS code that works around this issue by repositioning the popup.
      * 
@@ -31,4 +32,14 @@ class QualityOfLifeTad {
      */
     @Scenario()
     feature_overrideMaxHeightOfSubmenu() {}
+
+    /**
+     * The defaults work like this: if no settings in DB OR settings exists in DB but no explicit value for a particular setting =>
+     * the default is applied. 
+     * 
+     * This is for the use case: an user has already our plugin. He/she updates to a new version of plugin => defaults are applied
+     * automatically.
+     */
+    @Scenario()
+    feature_defaultValuesForSettings() {}
 }
