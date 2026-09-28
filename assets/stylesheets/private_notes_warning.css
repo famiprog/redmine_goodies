@@ -1,0 +1,16 @@
+.rg-private-notes-warning {
+  display: none;
+  background-color: #ffff66;
+  color: #000;
+  font-weight: bold;
+  padding: 4px 8px;
+  margin: 6px 0;
+}
+
+.rg-private-notes-warning.is-visible,
+/* Issue update and journal edit: checkbox and warning are siblings. */
+input[type="checkbox"][name$="[private_notes]"]:checked ~ .rg-private-notes-warning,
+/* Bulk edit: the checkbox sits inside the label. */
+label:has(> input[type="checkbox"][name$="[private_notes]"]:checked) + .rg-private-notes-warning {
+  display: block;
+}

@@ -14,6 +14,12 @@
 
     <%= stylesheet_link_tag 'questions_system', :plugin => 'redmine_goodies' %>
     <%= javascript_include_tag 'questions_system', :plugin => 'redmine_goodies' %>
+
+    <%= stylesheet_link_tag 'private_notes_warning', :plugin => 'redmine_goodies' %>
+    <script>
+      window.RedmineGoodiesPrivateNotesWarning = <%= raw l(:warning_private_notes_attachments).to_json %>;
+    </script>
+    <%= javascript_include_tag 'private_notes_warning', :plugin => 'redmine_goodies' %>
 <% end %>
 
 <% if RedmineGoodiesSettings.get_setting(:collapsible_images) == '1' %>

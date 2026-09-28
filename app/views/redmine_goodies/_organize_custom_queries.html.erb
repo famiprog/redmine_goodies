@@ -1,0 +1,18 @@
+<% if RedmineGoodiesSettings.organize_custom_queries? %>
+<% content_for :header_tags do %>
+<script>
+  window.RedmineGoodiesOrganizeCQSettings = {
+    projectId:          '<%= @project&.id %>',
+    apiUrl:             '/redmine_goodies_organize_cq',
+    labelMyQueries:     <%= raw l(:label_my_queries).to_json %>,
+    labelCustomQueries: <%= raw l(:label_query_plural).to_json %>,
+    suffixThisProject:  <%= raw l(:organize_cq_suffix_this_project).to_json %>,
+    suffixAllProjects:  <%= raw l(:organize_cq_suffix_all_projects).to_json %>,
+    iconHintText:       <%= raw l(:organize_cq_icon_hint).to_json %>,
+    badgeText:          <%= raw l(:organize_cq_badge).to_json %>,
+    linkText:           <%= raw l(:organize_cq_link_text).to_json %>
+  };
+</script>
+<%= javascript_include_tag 'organize_custom_queries', :plugin => 'redmine_goodies' %>
+<% end %>
+<% end %>

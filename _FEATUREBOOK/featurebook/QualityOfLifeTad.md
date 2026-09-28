@@ -5,6 +5,8 @@ Go to [Featurebook > Index](FEATUREBOOK.md)
 
 * [`@Scenario` `feature_repositionSubmenuOfContextMenu()`](#feature_repositionSubmenuOfContextMenu)
 * [`@Scenario` `feature_overrideMaxHeightOfSubmenu()`](#feature_overrideMaxHeightOfSubmenu)
+* [`@Scenario` `feature_defaultValuesForSettings()`](#feature_defaultValuesForSettings)
+* [`@Scenario` `feature_warningPrivateNotes()`](#feature_warningPrivateNotes)
 
 ## Scenarios
 
@@ -50,5 +52,38 @@ Settings:
 
 ![image2.png](../featurebook-img/QualityOfLifeTad/feature_overrideMaxHeightOfSubmenu/image2.png)
 
+</td></tr>
+</table>
+
+<a id="feature_defaultValuesForSettings"></a>
+<table>
+<tr><td> 
+
+`@Scenario` `feature_defaultValuesForSettings()`<br />
+</td></tr>
+<tr><td>
+
+The defaults work like this: if no settings in DB OR settings exists in DB but no explicit value for a particular setting =>
+the default is applied. 
+
+This is for the use case: an user has already our plugin. He/she updates to a new version of plugin => defaults are applied
+automatically.
+</td></tr>
+</table>
+
+<a id="feature_warningPrivateNotes"></a>
+<table>
+<tr><td> 
+
+`@Scenario` `feature_warningPrivateNotes()`<br />
+</td></tr>
+<tr><td>
+
+When adding a private note, it's not obvious at all that pasted images ARE NOT private. Hence we are adding a warning message about this.
+
+Let's display this message: `WARNING: any attachments (including copy/pasted images) ARE NOT private!`. Highlighted in yellow. Appears only when `Private` checkbox
+is checked.
+
+![image.png](../featurebook-img/QualityOfLifeTad/feature_warningPrivateNotes/image.png)
 </td></tr>
 </table>

@@ -1,0 +1,14 @@
+<% if RedmineGoodiesSettings.my_quick_menu_enabled? %>
+<% content_for :header_tags do %>
+  <script>
+    window.RedmineGoodiesMyQuickMenu = {
+      url: '<%= redmine_goodies_my_quick_menu_path %>',
+      i18n: {
+        loading: <%= raw l(:my_quick_menu_loading).to_json %>,
+        error:   <%= raw l(:my_quick_menu_error).to_json %>
+      }
+    };
+  </script>
+  <%= javascript_include_tag 'my_quick_menu', :plugin => 'redmine_goodies' %>
+<% end %>
+<% end %>

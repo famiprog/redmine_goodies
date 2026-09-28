@@ -1,0 +1,7 @@
+<div class="wiki">
+<% if @wiki_content %>
+  <%= textilizable(@wiki_content, :text) %>
+<% else %>
+  <p class="nodata"><%= l(:my_quick_menu_no_content) %></p>
+<% end %>
+</div>

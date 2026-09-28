@@ -13,6 +13,8 @@ en:
     settings_context_submenu_max_height_text1: 'When there are several actions in the sub-menu, at some point the max-height is reached and a scroll bar appears. The Redmine default is about 300px, which means about 15 lines.'
     settings_context_submenu_max_height_text2: 'E.g. 600 or 600px. Leave empty for no override.'
 
+    warning_private_notes_attachments: 'WARNING: any attachments (including copy/pasted images) ARE NOT private!'
+
     questions_system_add_answer: Add answer
     questions_system_no_answer: Not yet answered,
     questions_system_note_id_unknown: note id unknown/needs page refresh
@@ -37,3 +39,43 @@ en:
     assist_subtask_settings_fields_note_3: The names can usually be found when customizing columns per list of issues.
     assist_subtask_settings_fields_note_4: Use only the english names.
     assist_subtask_settings_fields_note_5: 'Custom fields can also be referenced by ID using the syntax cf_N (e.g. cf_5). The ID appears in the URL on the custom field administration page.'
+
+    settings_reorder_title: Reorder issues
+    settings_enable_issue_reorder: Enable
+    settings_enable_issue_reorder_text: Works on custom fields of type float, when such a field is used for sorting.
+    settings_reorder_enable_for: Enable for
+    settings_reorder_enable_for_any: Any custom field of type float
+    settings_reorder_enable_for_whitelist: 'White list: only the specified fields'
+    settings_reorder_enable_for_blacklist: 'Black list: all except the specified fields'
+    settings_reorder_specified_fields: Specified fields
+    settings_reorder_specified_fields_text: 'Similar to "%{quick_edit_fields_setting}", but only for float custom fields.'
+    settings_reorder_force_fields: Force enablement for fields
+    settings_reorder_force_fields_text1: 'The "reorder" feature activates by looking at the header cell of the column: is the CF of type float? Is the column sorted by this column?'
+    settings_reorder_force_fields_text2: 'For the fields "forced", these conditions are not checked, and the feature is forced.'
+    settings_reorder_force_fields_text3: 'Reason? E.g. if using a plugin such as `redmine_issue_view_columns` to display the sub-issues (of an issue) as table.'
+    reorder_recalculate_context_menu: Recalculate order indexes
+    reorder_header_supports_reorder: 'This column supports drag-to-reorder'
+    reorder_drag_to_reorder: 'Drag to reorder'
+    reorder_recalculate_modal_title: 'Recalculate order indexes'
+    reorder_recalculate_modal_before: 'For %{count} issues we will update'
+    reorder_recalculate_modal_after: ' = 1 ... %{count}'
+    reorder_recalculate_modal_intro: 'The recalculation works if:'
+    reorder_recalculate_modal_cond1: 'The table is sorted by a "reorderable" column. I.e. you see the reorder arrow on the header cell & all column cells.'
+    reorder_recalculate_modal_cond2: 'You select a couple of issues in the table.'
+
+    settings_organize_custom_queries: Enable
+    organize_cq_link_text: Organize custom queries
+    organize_cq_suffix_this_project: '(this project)'
+    organize_cq_suffix_all_projects: '(all projects)'
+    organize_cq_badge: '(all proj)'
+    organize_cq_icon_hint: 'opens the custom query in "all projects" mode'
+
+    settings_my_quick_menu_enabled: Enabled
+    settings_my_quick_menu_pairs: 'Pairs of (user/group:wiki page)'
+    settings_my_quick_menu_pairs_desc1: "E.g. 23:projects/some_project/wiki/some_wiki_page, 24:https://REDMINE_URL/projects/some_project/wiki/some_other_wiki_page"
+    settings_my_quick_menu_pairs_desc2: "This means: is the current user = id 23 or a member of group id 23? Then the content rendered in the 'My quick menu' popup is taken from that wiki page. Else, look at next entry."
+    settings_my_quick_menu_pairs_desc3: "Note: the URL of the wiki page may be absolute or relative. The regex looks for `projects/.../wiki/...`."
+    my_quick_menu_link: Quick menu
+    my_quick_menu_no_content: No menu entries configured.
+    my_quick_menu_loading: Loading...
+    my_quick_menu_error: Could not load menu content.
